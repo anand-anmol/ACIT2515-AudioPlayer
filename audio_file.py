@@ -8,7 +8,7 @@ from abc import abstractmethod
 class Audio:
     """Represents an audio file in a music player
 
-    Author: Anmol Anand(A01174846), Felix Ruttan(A01070306), Nick Janus(A01179897).
+    Author: Anmol Anand(A01174846), Felix Ruttan(A01070306), Nicholas Janus(A01179897).
     """
 
     def __init__(self, title: str, artist: str, album: str, runtime: str, pathname: str, filename: str):
