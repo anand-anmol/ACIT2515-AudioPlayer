@@ -11,7 +11,7 @@ class Audio:
     Author: Anmol Anand(A01174846), Felix Ruttan(A01070306), Nick Janus(A01179897).
     """
 
-    def __init__(self, title: str, artist: str, album: str, runtime: str, pathname: str, filename: str):
+    def __init__(self, title: str, artist: str, runtime: str, pathname: str, filename: str):
         """Create a new audio instance"""
         if not isinstance(title, str):
             raise ValueError("title of the song must be a string")
@@ -40,12 +40,12 @@ class Audio:
         self._rating = value
 
     def update_usage_stats(self):
-        """plays the song"""
+        """plays the audo file"""
         self._usage.increment_usage_stats()
 
     @abstractmethod
     def get_description(self) -> str:
-        """returns a description of the song"""
+        """returns a description of the audio file"""
         pass
 
     def get_location(self) -> str:
