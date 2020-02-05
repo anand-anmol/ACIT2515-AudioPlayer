@@ -7,6 +7,7 @@ from typing import List
 class PlayList:
     """
     a playlist for the music player
+    Author: Anmol Anand(A01174846), Felix Ruttan(A01070306), Nick Janus(A01179897).
     """
 
     def __init__(self, play_list_name: str, description: str):
