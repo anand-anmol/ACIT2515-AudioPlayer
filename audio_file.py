@@ -5,7 +5,7 @@ from usage_stats import UsageStats
 from abc import abstractmethod
 
 
-class Audio:
+class AudioFile:
     """Represents an audio file in a music player
 
     Author: Anmol Anand(A01174846), Felix Ruttan(A01070306), Nicholas Janus(A01179897).
