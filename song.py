@@ -14,7 +14,7 @@ class Song(AudioFile):
 
         if not isinstance(album, str):
             raise ValueError("album must be a string")
-        if not isinstance(genre, None):
+        if genre is not None:
             self._genre = Song.genre(genre)
 
         super().__init__(title, artist, runtime, pathname, filename)
@@ -38,7 +38,10 @@ class Song(AudioFile):
     @genre.setter
     def genre(self, update: str):
         try:
-            self._genre += update
+            if self._genre is not None and update.strip() not in self._genre:
+                self._genre += ",", update
+            else:
+                self._genre = update
         except TypeError:
             print("genre must be string")
 
