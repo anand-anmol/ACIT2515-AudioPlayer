@@ -1,6 +1,7 @@
 from audio_file import AudioFile
 from datetime import datetime, time
 from typing import Dict
+from usage_stats import UsageStats
 
 class Podcast(AudioFile):
     """Represents an audio file in an audio player
@@ -28,6 +29,7 @@ class Podcast(AudioFile):
         self._episode_number = episode_number
         self._episode_date = episode_date
         self._progress = progress
+        self._usage = UsageStats(datetime.now())
 
     @property
     def series(self) -> str:
