@@ -33,6 +33,7 @@ class Podcast(AudioFile):
 
     @property
     def series(self) -> str:
+        """returns the series for the podcast"""
         return self._series
 
     @series.setter
@@ -41,6 +42,7 @@ class Podcast(AudioFile):
 
     @property
     def season(self) -> str:
+        """returns the season of the podcast"""
         return self._season
     
     @season.setter
@@ -49,6 +51,7 @@ class Podcast(AudioFile):
 
     @property
     def episode_number(self) -> int:
+        """returns the episode number for the season"""
         return self.episode_number
 
     @episode_number.setter
