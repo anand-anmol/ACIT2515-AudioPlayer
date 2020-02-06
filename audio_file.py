@@ -17,7 +17,7 @@ class AudioFile:
             raise ValueError("title of the song must be a string")
         if not isinstance(artist, str):
             raise ValueError("the artist must be a string")
-        if not AudioFile.set_runtime(runtime):
+        if not self.set_runtime(runtime):
             raise ValueError("the runtime must be in the format hh:mm:ss")
         if not path.exists(pathname + filename):
             raise ValueError("path doesn't exist")
@@ -62,7 +62,6 @@ class AudioFile:
     def get_play_count(self):
         return self._usage.play_count
 
-    @classmethod
     def set_runtime(self, runtime: str) -> bool:
         """sets runtime if valid and returns True, if not returns False"""
         time_formats = ['%S', '%M:%S','%H:%M:%S']

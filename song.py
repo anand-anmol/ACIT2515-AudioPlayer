@@ -16,10 +16,11 @@ class Song(AudioFile):
             raise ValueError("album must be a string")
         if genre is not None:
             self._genre = Song.genre(genre)
+        else:
+            self._genre = None
 
         super().__init__(title, artist, runtime, pathname, filename)
         self._album = album
-        self._usage = UsageStats
 
     @property
     def album(self) -> str:
@@ -58,7 +59,7 @@ class Song(AudioFile):
             "genre": str(self._genre),
             "play_count": str(self._usage.play_count),
             "last_played": str(self._usage.last_played),
-            "rating": str(self.rating)
+            "rating": str(self._rating)
         }
         return meta_dict
 
@@ -68,13 +69,11 @@ class Song(AudioFile):
             song_details = "{} by {} from the album {} added on {}. Runtime is {}." \
                 .format(self._title, self._artist, self._album, self._usage._date_added, self._runtime)
             
-            if self._usage_stats.last_time_played != "":
+            if self._usage.last_played is not None:
                 song_details += " Last played on " + str(self._usage.last_played) + "."
-            if self.rating != "":
+            if self.rating is not None:
                 song_details += " User rating is " + str(self.rating) + "/5."
         except AttributeError:
             song_details = "Song is missing info, cannot display"
 
-        print(song_details)
-    
-
+        return song_details
