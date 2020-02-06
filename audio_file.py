@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 from os import path
 from typing import Dict
 from usage_stats import UsageStats
@@ -17,13 +17,12 @@ class AudioFile:
             raise ValueError("title of the song must be a string")
         if not isinstance(artist, str):
             raise ValueError("the artist must be a string")
-        if not isinstance(runtime, str):
+        if not AudioFile.set_runtime(runtime):
             raise ValueError("the runtime must be in the format hh:mm:ss")
         if not path.exists(pathname + filename):
             raise ValueError("path doesn't exist")
         self._title = title
         self._artist = artist
-        self._runtime = runtime
         self._rating = None
         self._pathname = pathname
         self._filename = filename
@@ -60,3 +59,12 @@ class AudioFile:
 
     def get_play_count(self):
         return self._usage.play_count
+
+    @classmethod
+    def set_runtime(self, runtime: str) -> bool:
+        time_formats = ['%S', '%M:%S','%H:%M:%S']
+        try:
+            self._runtime = datetime.strptime(runtime, time_formats[runtime.count(":")]).time()
+            return True
+        except ValueError:
+            return False
