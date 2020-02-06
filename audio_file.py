@@ -48,9 +48,11 @@ class AudioFile:
         pass
 
     def get_location(self) -> str:
+        """ returns location of audio file """
         return self._pathname + self._filename
 
     def get_usage_stats(self) -> UsageStats:
+        """returns stats about audio file"""
         return self._usage
 
     @abstractmethod
@@ -62,6 +64,7 @@ class AudioFile:
 
     @classmethod
     def set_runtime(self, runtime: str) -> bool:
+        """sets runtime if valid and returns True, if not returns False"""
         time_formats = ['%S', '%M:%S','%H:%M:%S']
         try:
             self._runtime = datetime.strptime(runtime, time_formats[runtime.count(":")]).time()
