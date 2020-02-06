@@ -7,6 +7,7 @@ from audio_file import AudioFile
 if __name__ == '__main__':
     # Creating an instance of a song
     song1 = AudioFile('Crazy', 'Gnarls Barkley', '3:02', "music/", "crazy.mp3")
+    print(song1._runtime.strftime("%M:%S"))
 
     # printing its description
     print(song1.get_description())
