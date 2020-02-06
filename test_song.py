@@ -2,11 +2,11 @@
     Author: Anmol Anand(A01174846), Felix Ruttan(A01070306), Nick Janus(A01179897).
     """
 
-from audio_file import Audio
+from audio_file import AudioFile
 
 if __name__ == '__main__':
     # Creating an instance of a song
-    song1 = Audio('Crazy', 'Gnarls Barkley', "St. Elsewhere", '3:02', "music/", "crazy.mp3")
+    song1 = AudioFile('Crazy', 'Gnarls Barkley', '3:02', "music/", "crazy.mp3")
 
     # printing its description
     print(song1.get_description())
@@ -25,4 +25,4 @@ if __name__ == '__main__':
 
     # error example
     # We get an error because the argument for pathname is invalid
-    song2 = Audio('Title', 'Artist', 'Album', 'Runtime', 'Pathname', 'Filename')
+    song2 = AudioFile('Title', 'Artist', 'Runtime', 'Pathname', 'Filename')
