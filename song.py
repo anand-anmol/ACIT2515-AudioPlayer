@@ -62,7 +62,7 @@ class Song(AudioFile):
         }
         return meta_dict
 
-    def show_details(self):
+    def get_description(self):
         """prints out details about the song object"""
         try:
             song_details = "{} by {} from the album {} added on {}. Runtime is {}." \
