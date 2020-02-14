@@ -9,6 +9,7 @@ from audio_library import AudioLibrary
 
 class TestAudioLibrary(unittest.TestCase):
     """
+    Test class for AudioPlayer
     Authors: Anmol Anand(A01174846), Felix Ruttan(A01070306), 
     Nicholas Janus(A01179897)
     """
@@ -42,13 +43,13 @@ class TestAudioLibrary(unittest.TestCase):
         """tests the add_podcast method"""
         self.library.add_podcast(self.podcast1)
 
-        self.assertIn(self.podcast, self.library.get_playlist_list())
+        self.assertIn(self.podcast1, self.library.get_podcast_list())
     
     def test_add_playlist(self):
         """tests the add_playlist method"""
         self.library.add_playlist(self.playlist1)
 
-        self.assertIn(self.playlist1, self.get_playlist_list())
+        self.assertIn(self.playlist1, self.library.get_playlist_list())
 
     def test_remove_song(self):
         """tests the remove_song method"""
@@ -60,7 +61,7 @@ class TestAudioLibrary(unittest.TestCase):
         """tests the remove_podcast method"""
         self.library.remove_podcast(self.podcast1)
 
-        self.assertNotIn(self.podcast1, self.get_podcast_list())
+        self.assertNotIn(self.podcast1, self.library.get_podcast_list())
 
     def test_remove_playlist(self):
         """tests the remove_playlist method"""
@@ -72,19 +73,19 @@ class TestAudioLibrary(unittest.TestCase):
         """tests the get_song_list method"""
         expected_output = [self.song1]
 
-        self.assertEqual(self.get_song_list, expected_output)
+        self.assertEqual(self.library.get_song_list(), expected_output)
     
     def test_get_podcast_list(self):
         """tests the get_podcast_list method"""
         expected_output = [self.podcast1]
 
-        self.assertEqual(self.get_podcast_list, expected_output)
+        self.assertEqual(self.library.get_podcast_list(), expected_output)
 
     def test_get_playlist_list(self):
         """tests the get_playlist_list method"""
         expected_output = [self.playlist1]
 
-        self.assertEqual(self.get_playlist_list, expected_output)
+        self.assertEqual(self.library.get_playlist_list(), expected_output)
     
     def test_number_of_songs(self):
         """tests the number_of_songs method"""
