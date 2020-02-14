@@ -1,0 +1,40 @@
+import unittest
+import inspect
+from datetime import time
+from song import Song
+from podcast import Podcast
+from playlist import PlayList
+from audio_library import AudioLibrary
+
+
+class TestAudioLibrary(unittest.TestCase):
+    """Authors: Anmol Anand(A01174846), Felix Ruttan(A01070306), 
+       Nicholas Janus(A01179897)
+    """
+
+    def setUp(self):
+        """called before every test method"""
+        self.logPoint()
+        self.library = AudioLibrary()
+        self.song1 = Song('Crazy', 'Gnarls Barkley',
+                               '3:02', "music/", "crazy.mp3")
+
+    def tearDown(self):
+        """called after every test method"""
+	    self.logPoint()
+
+    def test_init(self):
+        """1A: tests the constructor"""
+        pass
+
+    def test_add_song(self):
+        """tests the test_song method"""
+        self.library.add_song(self.song1)
+
+        self.assertIn(self.song1, self.library.get_song_list())
+
+    def test_add_podcasts(self):
+        """tests the add_podcasts method"""
+        self.library.add_podcast(self.podcast1)
+
+        self.assertIn(self.podcast, self.library.get_playlist_list())

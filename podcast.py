@@ -6,20 +6,22 @@ from usage_stats import UsageStats
 class Podcast(AudioFile):
     """Represents an audio file in an audio player
     
-    Author: Anmol Anand(A01174846), Felix Ruttan(A01070306), Nicholas Janus(A01179897).
+    Author: Anmol Anand(A01174846)
     """
 
     def __init__(self, title: str, artist: str, runtime: str, pathname: str, filename: str, series:str, season:str, progress:time, episode_number:int= None, episode_date:datetime=None):
         """Creates an instance of a Podcast"""
 
-        if not isinstance(episode_date, datetime):
-            raise ValueError("episode date is not a datetime object")
+        if episode_date is not None:
+            if not isinstance(episode_date, datetime):
+                raise ValueError("episode date is not a datetime object")
         if not isinstance(series, str):
             raise ValueError("series is not a string")
         if not isinstance(season, str):
             raise ValueError("season is not a string")
-        if not isinstance(episode_number, str):
-            raise ValueError("episode number is not an integer")
+        if episode_number is not None:
+            if not isinstance(episode_number, int):
+                raise ValueError("episode number is not an integer")
         if not isinstance(progress, time):
             raise ValueError("progress is not a time object")
 
@@ -52,7 +54,7 @@ class Podcast(AudioFile):
     @property
     def episode_number(self) -> int:
         """returns the episode number for the season"""
-        return self.episode_number
+        return self._episode_number
 
     @episode_number.setter
     def episode_number(self, episode_number):
