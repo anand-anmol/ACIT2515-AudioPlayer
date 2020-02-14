@@ -20,6 +20,9 @@ class TestAudioLibrary(unittest.TestCase):
         self.song1 = Song('Crazy', 'Gnarls Barkley','St. Elsewhere', '3:02', "music/", "crazy.mp3")
         self.podcast1 = Podcast('Startalk', "Neil deGrasse Tyson", "56:02", "podcasts/", "startalk.mp3", "2020", "18", time(0, 15, 23), 12)
         self.playlist1 = PlayList('study time', "playlist for my study sessions")
+        self.library.add_playlist(self.playlist1)
+        self.library.add_podcast(self.podcast1)
+        self.library.add_song(self.song1)
     
     def tearDown(self):
         """called after every test method"""
@@ -67,11 +70,46 @@ class TestAudioLibrary(unittest.TestCase):
 
     def test_get_song_list(self):
         """tests the get_song_list method"""
-        self.library.add_song(self.song1)
-        expected_output = [song1]
+        expected_output = [self.song1]
 
         self.assertEqual(self.get_song_list, expected_output)
+    
+    def test_get_podcast_list(self):
+        """tests the get_podcast_list method"""
+        expected_output = [self.podcast1]
 
+        self.assertEqual(self.get_podcast_list, expected_output)
+
+    def test_get_playlist_list(self):
+        """tests the get_playlist_list method"""
+        expected_output = [self.playlist1]
+
+        self.assertEqual(self.get_playlist_list, expected_output)
+    
+    def test_number_of_songs(self):
+        """tests the number_of_songs method"""
+        expected_output = 1
+
+        self.assertEqual(self.library.number_of_songs(), expected_output)
+    
+    def test_number_of_podcasts(self):
+        """tests the number_of_podcasts method"""
+		self.podcast2 = Podcast('BCIT speaks', "Anmol", "58:05", "podcasts/", "bcit_speaks.mp3", "2", "2020", time(0, 15, 23), 10)
+        self.library.add_podcast(self.podcast2)
+        expected_output = 2
+
+        self.assertEqual(self.library.number_of_podcasts(), expected_output)
+    
+    def test_number_of_playlists(self):
+        """test the number_of_playlists method"""
+        self.playlist2 = PlayList('Workout', 'Gym time and marathons')
+        self.playlist3 = PlayList('Transit', 'Help me pass the time in the SkyTrain')
+        self.library.add_playlist(playlist2)
+        self.library.add_playlist(playlist3)
+        expected_output = 3
+
+        self.assertEqual(self.library.number_of_playlists(), expected_output)
+        
     def logPoint(self):
         """utility method to trace control flow"""
         currentTest= self.id().split('.')[-1]
