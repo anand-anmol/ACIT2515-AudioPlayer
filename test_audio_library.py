@@ -94,7 +94,7 @@ class TestAudioLibrary(unittest.TestCase):
     
     def test_number_of_podcasts(self):
         """tests the number_of_podcasts method"""
-		self.podcast2 = Podcast('BCIT speaks', "Anmol", "58:05", "podcasts/", "bcit_speaks.mp3", "2", "2020", time(0, 15, 23), 10)
+        self.podcast2 = Podcast('BCIT speaks', "Anmol", "58:05", "podcasts/", "bcit_speaks.mp3", "2", "2020", time(0, 15, 23), 10)
         self.library.add_podcast(self.podcast2)
         expected_output = 2
 
@@ -104,12 +104,12 @@ class TestAudioLibrary(unittest.TestCase):
         """test the number_of_playlists method"""
         self.playlist2 = PlayList('Workout', 'Gym time and marathons')
         self.playlist3 = PlayList('Transit', 'Help me pass the time in the SkyTrain')
-        self.library.add_playlist(playlist2)
-        self.library.add_playlist(playlist3)
+        self.library.add_playlist(self.playlist2)
+        self.library.add_playlist(self.playlist3)
         expected_output = 3
 
         self.assertEqual(self.library.number_of_playlists(), expected_output)
-        
+
     def logPoint(self):
         """utility method to trace control flow"""
         currentTest= self.id().split('.')[-1]
