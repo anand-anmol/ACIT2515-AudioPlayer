@@ -27,6 +27,8 @@ class AudioFile:
         self._pathname = pathname
         self._filename = filename
         self._usage = UsageStats(datetime.now())
+        if type(self) == AudioFile:
+            raise NameError("cannot create an AudioFile object")
 
     @property
     def rating(self) -> float:
