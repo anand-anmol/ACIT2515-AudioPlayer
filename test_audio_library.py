@@ -19,7 +19,7 @@ class TestAudioLibrary(unittest.TestCase):
         self.logPoint()
         self.library = AudioLibrary()
         self.song1 = Song('Crazy', 'Gnarls Barkley','St. Elsewhere', '3:02', "music/", "crazy.mp3")
-        self.podcast1 = Podcast('Startalk', "Neil deGrasse Tyson", "56:02", "podcasts/", "startalk.mp3", "2020", "18", time(0, 15, 23), 12)
+        self.podcast1 = Podcast('Startalk', "Neil deGrasse Tyson", "56:02", "podcasts/", "startalk.mp3", "2020", "18", 12)
         self.playlist1 = PlayList('study time', "playlist for my study sessions")
         self.library.add_playlist(self.playlist1)
         self.library.add_podcast(self.podcast1)
@@ -117,7 +117,7 @@ class TestAudioLibrary(unittest.TestCase):
     
     def test_number_of_podcasts(self):
         """tests the number_of_podcasts method"""
-        self.podcast2 = Podcast('BCIT speaks', "Anmol", "58:05", "podcasts/", "bcit_speaks.mp3", "2", "2020", time(0, 15, 23), 10)
+        self.podcast2 = Podcast('BCIT speaks', "Anmol", "58:05", "podcasts/", "bcit_speaks.mp3", "2", "2020", 10)
         self.library.add_podcast(self.podcast2)
 
         self.assertEqual(self.library.number_of_podcasts(), 2)

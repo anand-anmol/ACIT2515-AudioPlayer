@@ -9,7 +9,7 @@ class Podcast(AudioFile):
     Author: Anmol Anand(A01174846)
     """
 
-    def __init__(self, title: str, artist: str, runtime: str, pathname: str, filename: str, series:str, season:str, progress:time, episode_number:int= None, episode_date:datetime=None):
+    def __init__(self, title: str, artist: str, runtime: str, pathname: str, filename: str, series:str, season:str, episode_number:int= None, episode_date:datetime=None):
         """Creates an instance of a Podcast"""
 
         if not isinstance(episode_date, datetime) and episode_date is not None:
@@ -20,15 +20,13 @@ class Podcast(AudioFile):
             raise ValueError("season is not a string")
         if not isinstance(episode_number, int) and episode_number is not None:
             raise ValueError("episode number is not an integer")
-        if not isinstance(progress, time):
-            raise ValueError("progress is not a time object")
 
         super().__init__(title, artist, runtime, pathname, filename)
         self._series = series
         self._season = season
         self._episode_number = episode_number
         self._episode_date = episode_date
-        self._progress = progress
+        self._progress = time(0,0,0)
         self._usage = UsageStats(datetime.now())
 
     @property
