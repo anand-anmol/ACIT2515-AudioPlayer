@@ -18,14 +18,21 @@ class AudioLibrary:
 
     def add_song(self, song: Song):
         """adds song to library"""
+        if not isinstance(song, Song):
+            raise ValueError("argument given is not a Song object")
+        
         self._songs.append(song)
-    
+
     def add_podcast(self, podcast: Podcast):
         """adds podcast to library"""
+        if not isinstance(podcast, Podcast):
+            raise ValueError("argument given is not a Podcast object")
         self._podcasts.append(podcast)
 
     def add_playlist(self, playlist: PlayList):
         """adds playlist to library"""
+        if not isinstance(playlist, PlayList):
+            raise ValueError("argument given is not a PlayList object")
         self._playlists.append(playlist)
     
     def get_song_list(self) -> List:
@@ -42,14 +49,20 @@ class AudioLibrary:
     
     def remove_song(self, song: Song):
         """removes song from library"""
+        if not isinstance(song, Song):
+            raise ValueError("argument given is not a Song object")
         self._songs.remove(song)
 
     def remove_podcast(self, podcast: Podcast):
         """removes podcast from library"""
+        if not isinstance(podcast, Podcast):
+            raise ValueError("argument given is not a Podcast object")
         self._podcasts.remove(podcast)
     
     def remove_playlist(self, playlist: PlayList):
         """removes playlist from library"""
+        if not isinstance(playlist, PlayList):
+            raise ValueError("argument given is not a PlayList object")
         self._playlists.remove(playlist)
     
     def number_of_songs(self) -> int:

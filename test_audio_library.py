@@ -31,19 +31,30 @@ class TestAudioLibrary(unittest.TestCase):
 
     def test_init(self):
         """1A: tests the constructor"""
-        pass
+
+        self.library1 = AudioLibrary()
+
+        self.assertEqual(len(self.library1.get_playlist_list()), 0)
+        self.assertEqual(len(self.library1.get_podcast_list()), 0)
+        self.assertEqual(len(self.library1.get_song_list()), 0)
 
     def test_add_song(self):
         """tests the test_song method"""
         self.library.add_song(self.song1)
 
         self.assertIn(self.song1, self.library.get_song_list())
+    
+        with self.assertRaises(ValueError):
+            self.library.add_song(2)
 
     def test_add_podcast(self):
         """tests the add_podcast method"""
         self.library.add_podcast(self.podcast1)
 
         self.assertIn(self.podcast1, self.library.get_podcast_list())
+
+        with self.assertRaises(ValueError):
+            self.library.add_podcast(2)
     
     def test_add_playlist(self):
         """tests the add_playlist method"""
@@ -51,23 +62,35 @@ class TestAudioLibrary(unittest.TestCase):
 
         self.assertIn(self.playlist1, self.library.get_playlist_list())
 
+        with self.assertRaises(ValueError):
+            self.library.add_playlist(2)
+
     def test_remove_song(self):
         """tests the remove_song method"""
         self.library.remove_song(self.song1)
 
         self.assertNotIn(self.song1, self.library.get_song_list())
+
+        with self.assertRaises(ValueError):
+            self.library.remove_song(2)
     
     def test_remove_podcast(self):
         """tests the remove_podcast method"""
         self.library.remove_podcast(self.podcast1)
 
         self.assertNotIn(self.podcast1, self.library.get_podcast_list())
-
+        
+        with self.assertRaises(ValueError):
+            self.library.remove_podcast(2)
+    
     def test_remove_playlist(self):
         """tests the remove_playlist method"""
         self.library.remove_playlist(self.playlist1)
 
         self.assertNotIn(self.playlist1, self.library.get_playlist_list())
+
+        with self.assertRaises(ValueError):
+            self.library.remove_playlist(2)
 
     def test_get_song_list(self):
         """tests the get_song_list method"""
@@ -89,27 +112,24 @@ class TestAudioLibrary(unittest.TestCase):
     
     def test_number_of_songs(self):
         """tests the number_of_songs method"""
-        expected_output = 1
 
-        self.assertEqual(self.library.number_of_songs(), expected_output)
+        self.assertEqual(self.library.number_of_songs(), 1)
     
     def test_number_of_podcasts(self):
         """tests the number_of_podcasts method"""
         self.podcast2 = Podcast('BCIT speaks', "Anmol", "58:05", "podcasts/", "bcit_speaks.mp3", "2", "2020", time(0, 15, 23), 10)
         self.library.add_podcast(self.podcast2)
-        expected_output = 2
 
-        self.assertEqual(self.library.number_of_podcasts(), expected_output)
+        self.assertEqual(self.library.number_of_podcasts(), 2)
     
     def test_number_of_playlists(self):
         """test the number_of_playlists method"""
         self.playlist2 = PlayList('Workout', 'Gym time and marathons')
-        self.playlist3 = PlayList('Transit', 'Help me pass the time in the SkyTrain')
+        self.playlist3 = PlayList('Transit', 'Help me pass time in SkyTrain')
         self.library.add_playlist(self.playlist2)
         self.library.add_playlist(self.playlist3)
-        expected_output = 3
 
-        self.assertEqual(self.library.number_of_playlists(), expected_output)
+        self.assertEqual(self.library.number_of_playlists(), 3)
 
     def logPoint(self):
         """utility method to trace control flow"""
