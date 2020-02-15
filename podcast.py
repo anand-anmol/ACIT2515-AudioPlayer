@@ -12,16 +12,14 @@ class Podcast(AudioFile):
     def __init__(self, title: str, artist: str, runtime: str, pathname: str, filename: str, series:str, season:str, progress:time, episode_number:int= None, episode_date:datetime=None):
         """Creates an instance of a Podcast"""
 
-        if episode_date is not None:
-            if not isinstance(episode_date, datetime):
-                raise ValueError("episode date is not a datetime object")
+        if not isinstance(episode_date, datetime) and episode_date is not None:
+            raise ValueError("episode date is not a datetime object")
         if not isinstance(series, str):
             raise ValueError("series is not a string")
         if not isinstance(season, str):
             raise ValueError("season is not a string")
-        if episode_number is not None:
-            if not isinstance(episode_number, int):
-                raise ValueError("episode number is not an integer")
+        if not isinstance(episode_number, int) and episode_number is not None:
+            raise ValueError("episode number is not an integer")
         if not isinstance(progress, time):
             raise ValueError("progress is not a time object")
 
