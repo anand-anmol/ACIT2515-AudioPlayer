@@ -63,3 +63,15 @@ class AudioLibrary:
     def number_of_playlists(self) -> int:
         """returns the number of playlists in the library"""
         return len(self._playlists)
+
+    def search_song(self, search_for: str) -> Song:
+        """search library for specific song using regex, when we know regex"""
+        raise NotImplementedError
+
+    def search_podcast(self, search_for: str) -> Podcast:
+        """search library for specific podcast, using regex, when we know regex"""
+        raise NotImplementedError
+
+    def search_playlist(self, search_for: str) -> PlayList:
+        """search library for specific playlist, using regex, when we know regex"""
+        raise NotImplementedError
