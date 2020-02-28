@@ -19,7 +19,7 @@ class AudioFile:
             raise ValueError("the artist must be a string")
         if not self.set_runtime(runtime):
             raise ValueError("the runtime must be in the format hh:mm:ss")
-        if not path.exists(pathname + filename):
+        if not path.exists(path.join(pathname, filename)):
             raise ValueError("path doesn't exist")
         self._title = title
         self._artist = artist

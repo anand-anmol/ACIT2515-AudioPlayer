@@ -15,7 +15,7 @@ class Song(AudioFile):
         if not isinstance(album, str):
             raise ValueError("album must be a string")
         if genre is not None and isinstance(genre, str):
-            self._genre = Song.genre(genre)
+            self._genre = genre
         else:
             self._genre = None
 
