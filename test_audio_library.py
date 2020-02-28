@@ -5,6 +5,7 @@ from song import Song
 from podcast import Podcast
 from playlist import PlayList
 from audio_library import AudioLibrary
+import os
 
 
 class TestAudioLibrary(unittest.TestCase):
@@ -16,10 +17,10 @@ class TestAudioLibrary(unittest.TestCase):
 
     def setUp(self):
         """called before every test method"""
-        self.logPoint()
+        self.logAudioPlayer()
         self.library = AudioLibrary()
-        self.song1 = Song('Crazy', 'Gnarls Barkley','St. Elsewhere', '3:02', "music/", "crazy.mp3")
-        self.podcast1 = Podcast('Startalk', "Neil deGrasse Tyson", "56:02", "podcasts/", "startalk.mp3", "2020", "18", 12)
+        self.song1 = Song('Crazy', 'Gnarls Barkley','St. Elsewhere', '3:02', os.path.join(os.getcwd(), 'music') , "crazy.mp3")
+        self.podcast1 = Podcast('Startalk', "Neil deGrasse Tyson", "56:02", os.path.join(os.getcwd(), 'podcasts'), "startalk.mp3", "2020", "18", 12)
         self.playlist1 = PlayList('study time', "playlist for my study sessions")
         self.library.add_playlist(self.playlist1)
         self.library.add_podcast(self.podcast1)
@@ -27,7 +28,7 @@ class TestAudioLibrary(unittest.TestCase):
     
     def tearDown(self):
         """called after every test method"""
-        self.logPoint()
+        self.logAudioPlayer()
 
     def test_init(self):
         """C-1: tests the constructor"""
@@ -84,7 +85,6 @@ class TestAudioLibrary(unittest.TestCase):
             self.library.remove_podcast(2)
     
     def test_remove_playlist(self):
-        """R-3: tests the remove_playlist method"""
         self.library.remove_playlist(self.playlist1)
 
         self.assertNotIn(self.playlist1, self.library.get_playlist_list())
@@ -131,7 +131,7 @@ class TestAudioLibrary(unittest.TestCase):
 
         self.assertEqual(self.library.number_of_playlists(), 3)
 
-    def logPoint(self):
+    def logAudioPlayer(self):
         """utility method to trace control flow"""
         currentTest= self.id().split('.')[-1]
         callingFunction= inspect.stack()[1][3]
