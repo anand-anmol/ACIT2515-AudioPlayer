@@ -58,12 +58,12 @@ class Song(AudioFile):
             "title": str(self.title),
             "artist": str(self.artist),
             "album": str(self.album),
-            "date_added": str(self._usage.date_added),
+            "date_added": str(self.date_added),
             "runtime": str(self.runtime),
             "file_location": str(self.file_location),
             "genre": str(self.genre),
-            "play_count": str(self._usage.play_count),
-            "last_played": str(self._usage.last_played),
+            "play_count": str(self.play_count),
+            "last_played": str(self.last_played),
             "rating": str(self.rating)
         }
         return meta_dict
