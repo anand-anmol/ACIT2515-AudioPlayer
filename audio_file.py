@@ -1,3 +1,4 @@
+from sqlalchemy import Column, Text, Integer, Time
 from datetime import datetime, time
 from os import path
 from typing import Dict
@@ -18,11 +19,10 @@ class AudioFile(Base):
     title = Column(Text, nullable =False)
     artist = Column(Text, nullable=False)
     file_location = Column(Text, nullable=False)
-    runtime = Column(Text)
     date_added = Column(Text, nullable=False)
     play_count = Column(Integer, nullable=False)
     last_played = Column(Text)
-    rating = Column(Integer)
+    runtime = Column(Time, nullable=False)
 
     def __init__(self, title: str, artist: str, runtime: str, file_location: str):
         """Create a new audio instance"""
@@ -34,23 +34,25 @@ class AudioFile(Base):
             raise ValueError("the runtime must be in the format hh:mm:ss")
         if not isinstance(file_location, str):
             raise ValueError("the file location must be a string")
-        self._title = title
-        self._artist = artist
-        self._rating = None
-        self._file_location = file_location
+        if not path.exists(file_location):
+            raise ValueError("file doesn't exist")
+        self.title = title
+        self.artist = artist
+        self.file_location = file_location
         self._usage = UsageStats(datetime.now())
         if type(self) == AudioFile:
             raise NameError("cannot create an AudioFile object")
+        self.last_played = self._usage.last_played
+        self.play_count = self._usage.play_count
+        self.date_added = self._usage.date_added
 
     @property
     def rating(self) -> float:
         """gets value for user ratings"""
-        return self._rating
 
     @rating.setter
     def rating(self, value: float):
         """sets the value of user ratings"""
-        self._rating = value
 
     def update_usage_stats(self):
         """plays the audo file"""
@@ -80,7 +82,8 @@ class AudioFile(Base):
         """sets runtime if valid and returns True, if not returns False"""
         time_formats = ['%S', '%M:%S','%H:%M:%S']
         try:
-            self._runtime = datetime.strptime(runtime, time_formats[runtime.count(":")]).time()
+            self.runtime = datetime.strptime(runtime, time_formats[runtime.count(":")]).time()
             return True
         except ValueError:
             return False
+z

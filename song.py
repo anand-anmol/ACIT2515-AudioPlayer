@@ -1,3 +1,4 @@
+from sqlalchemy import Column, Text
 from audio_file import AudioFile
 from datetime import datetime, time
 from typing import Dict
@@ -19,57 +20,51 @@ class Song(AudioFile):
         if not isinstance(album, str):
             raise ValueError("album must be a string")
         if genre is not None and isinstance(genre, str):
-            self._genre = genre
+            self.genre = genre
         else:
-            self._genre = None
+            self.genre = None
 
         super().__init__(title, artist, runtime, file_location)
-        self._album = album
+        self.album = album
 
-    @property
-    def album(self) -> str:
-        """returns the song._album or sets the song._album"""
-        return self._album
+    def get_album(self) -> str:
+        """returns the song.album or sets the song.album"""
+        return self.album
 
-    @album.setter
-    def album(self, update: str):
-        self._album = update
+    def set_album(self, update: str):
+        self.album = update
 
-    @property
-    def genre(self) -> str:
-        """returns the song._genre or sets the song._genre"""
-        return self._genre
+    def get_genre(self) -> str:
+        """returns the song.genre or sets the song.genre"""
+        return self.genre
 
-    @property
-    def runtime(self) -> str:
+    def get_runtime(self) -> str:
         """returns the runtime for the song object"""
 
-        return self._runtime
+        return self.runtime
 
-    @genre.setter
-    def genre(self, update: str):
+    def set_genre(self, update: str):
         try:
-            if self._genre is not None and update.strip() not in self._genre:
-                self._genre += ",", update
+            if self.genre is not None and update.strip() not in self.genre:
+                self.genre += ",", update
             else:
-                self._genre = update
+                self.genre = update
         except TypeError:
             print("genre must be string")
 
     def meta_data(self) -> Dict:
         """returns a dictionary of song meta data"""
         meta_dict = {
-            "title": str(self._title),
-            "artist": str(self._artist),
-            "album": str(self._album),
+            "title": str(self.title),
+            "artist": str(self.artist),
+            "album": str(self.album),
             "date_added": str(self._usage.date_added),
-            "runtime": str(self._runtime),
-            "pathname": str(self._pathname),
-            "filename": str(self._filename),
-            "genre": str(self._genre),
+            "runtime": str(self.runtime),
+            "file_location": str(self.file_location),
+            "genre": str(self.genre),
             "play_count": str(self._usage.play_count),
             "last_played": str(self._usage.last_played),
-            "rating": str(self._rating)
+            "rating": str(self.rating)
         }
         return meta_dict
 
@@ -77,7 +72,7 @@ class Song(AudioFile):
         """prints out details about the song object"""
         try:
             song_details = "{} by {} from the album {} added on {}. Runtime is {}." \
-                .format(self._title, self._artist, self._album, self._usage._date_added, self._runtime)
+                .format(self.title, self.artist, self.album, self._usage._date_added, self.runtime)
 
             if self._usage.last_played is not None:
                 song_details += " Last played on " + str(self._usage.last_played) + "."
