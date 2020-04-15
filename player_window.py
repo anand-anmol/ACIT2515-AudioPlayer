@@ -16,7 +16,6 @@ class PlayerWindow(tk.Frame):
 
         # Window attributes
         parent.title('Player')
-        # parent.geometry("650x300")
 
         # Menus
         main_menu = tk.Menu(master=parent)
