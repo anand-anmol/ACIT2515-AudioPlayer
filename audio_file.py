@@ -85,5 +85,4 @@ class AudioFile(Base):
             self.runtime = datetime.strptime(runtime, time_formats[runtime.count(":")]).time()
             return True
         except ValueError:
-            return False
-z
+            return False    
