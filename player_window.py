@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 import tkinter as tk
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename

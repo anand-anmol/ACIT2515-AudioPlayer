@@ -4,3 +4,4 @@ song_db.sqlite
 *.pyc
 *.xml
 .gitignore*
+*.mp3
