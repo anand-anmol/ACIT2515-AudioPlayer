@@ -87,6 +87,7 @@ class MainAppController(tk.Frame):
             msg_str = f"{form_data.get('title')} added to the database"
             messagebox.showinfo(title='Add Song', message=msg_str)
             self._close_add_popup()
+            self.listbox_callback()
 
     def delete_callback(self):
         """ Deletes selected song. """

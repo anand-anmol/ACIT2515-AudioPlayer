@@ -63,10 +63,10 @@ class PlayerWindow(tk.Frame):
         tk.Button(bot_frame, text='Play', width=10, command=controller.play_callback) \
             .grid(row=0, column=0, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Pause', width=10, command=controller.pause_callback) \
+        tk.Button(bot_frame, text='Stop', width=10, command=controller.stop_callback) \
             .grid(row=0, column=1, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Stop', width=10, command=controller.stop_callback) \
+        tk.Button(bot_frame, text='Pause', width=10, command=controller.pause_callback) \
             .grid(row=0, column=2, sticky=tk.E, padx=10, pady=5)
 
         tk.Button(bot_frame, text='Resume', width=10, command=controller.resume_callback) \
