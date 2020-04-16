@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import tkinter as tk
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
@@ -10,7 +8,7 @@ from tkinter import Scrollbar
 class PlayerWindow(tk.Frame):
     """ Layout for the Player Window """
 
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, list_box_callback):
         """ Initialize Main Application """
         tk.Frame.__init__(self, parent)
 
@@ -82,7 +80,6 @@ class PlayerWindow(tk.Frame):
             .grid(row=3, column=1, sticky=tk.E, padx=20, pady=5)
 
         # Initial controller calls
-        controller.list_box_callback()
 
     def set_titles(self, titles):
         """ Update the listbox to display all names """

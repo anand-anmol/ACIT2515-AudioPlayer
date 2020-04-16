@@ -15,7 +15,8 @@ class MainAppController(tk.Frame):
         """ Create the views """
         tk.Frame.__init__(self, parent)
         self._root_win = tk.Toplevel()
-        self._player = PlayerWindow(self._root_win, self)
+        self._player = PlayerWindow(self._root_win, self, self.listbox_callback)
+        self.listbox_callback()
 
     def play_callback(self):
         """ Play audio file. """
