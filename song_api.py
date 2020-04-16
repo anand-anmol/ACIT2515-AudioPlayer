@@ -24,7 +24,7 @@ def add_song():
                     content['runtime'],
                     content['file_location'],
                     content['genre'],
-					)
+                    )
         song_mgr.add_song(song)
 
         response = app.response_class(
@@ -36,6 +36,7 @@ def add_song():
             status=400
         )
     return response
+
 
 @app.route('/song/<string:song_id>', methods=['GET'])
 def get_song(song_id):
@@ -57,6 +58,7 @@ def get_song(song_id):
             status=404
         )
         return response
+
 
 @app.route('/song/random', methods=['GET'])
 def random_song():
@@ -153,6 +155,7 @@ def delete_all_songs():
     except ValueError as e:
         response = app.response_class(response=str(e), status=404)
     return response
+
 
 if __name__ == "__main__":
     app.run(debug=True)

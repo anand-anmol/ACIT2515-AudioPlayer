@@ -32,6 +32,12 @@ class MainAppController(tk.Frame):
         """ Resumes playing stopped audio. """
         pass
 
+    def list_box_callback(self):
+        """ List titles in listbox. """
+        response = requests.get("http://localhost:5000/song/names")
+        title_list = [f'{s["title"]}' for s in response.json()]
+        self._player.set_titles(title_list)
+
     def openfile(self):
         pass
     

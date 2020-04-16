@@ -60,21 +60,30 @@ class PlayerWindow(tk.Frame):
         self.list_box.config(yscrollcommand=scrollbar.set)
 
         # Main buttons
-        tk.Button(bot_frame, text='Play', width=10, command=self.play_callback) \
+        tk.Button(bot_frame, text='Play', width=10, command="") \
             .grid(row=0, column=0, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Pause', width=10, command=self.pause_callback) \
+        tk.Button(bot_frame, text='Pause', width=10, command="") \
             .grid(row=0, column=1, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Stop', width=10, command=self.stop_callback) \
+        tk.Button(bot_frame, text='Stop', width=10, command="") \
             .grid(row=0, column=2, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Resume', width=10, command=self.resume_callback) \
+        tk.Button(bot_frame, text='Resume', width=10, command="") \
             .grid(row=0, column=3, sticky=tk.E, padx=10, pady=5)
 
         # Buttons under listbox
-        tk.Button(bot_right_frame, text='Add', width=10, command=self.add_callback) \
+        tk.Button(bot_right_frame, text='Add', width=10, command="") \
             .grid(row=2, column=1, sticky=tk.E, padx=20, pady=5)
 
-        tk.Button(bot_right_frame, text='Delete', width=10, command=self.delete_callback) \
+        tk.Button(bot_right_frame, text='Delete', width=10, command="") \
             .grid(row=3, column=1, sticky=tk.E, padx=20, pady=5)
+
+        # Initial controller calls
+        controller.list_box_callback()
+
+    def set_titles(self, titles):
+        """ Update the listbox to display all names """
+        self.list_box.delete(0, tk.END)
+        for title in titles:
+            self.list_box.insert(tk.END, title)
