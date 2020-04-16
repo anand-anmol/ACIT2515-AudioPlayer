@@ -8,6 +8,7 @@ from player_window import PlayerWindow
 from add_window import AddWindow
 import vlc
 
+
 class MainAppController(tk.Frame):
     """ Main Application Window """
 
@@ -34,23 +35,24 @@ class MainAppController(tk.Frame):
         media = self._vlc_instance.media_new_path(media_file)
         self._player.set_media(media)
         self._player.play()
-        
+        self._player_window.state_value['text'] = "Playing"
 
     def pause_callback(self):
         """ Pauses playing audio. """
         if self._player.get_state() == vlc.State.Playing:
             self._player.pause()
+            self._player_window.state_value['text'] = "Paused"
 
     def stop_callback(self):
         """ Stops playing audio. """
         self._player.stop()
-
+        self._player_window.state_value['text'] = "Not Playing"
 
     def resume_callback(self):
         """ Resumes playing stopped audio. """
         if self._player.get_state() == vlc.State.Paused:
             self._player.pause()
-
+            self._player_window.state_value['text'] = "Playing"
 
     def listbox_callback(self):
         """ List titles in listbox. """
@@ -61,14 +63,14 @@ class MainAppController(tk.Frame):
 
     def openfile(self):
         pass
-    
+
     def quit_callback(self):
         """ Exit the application. """
         self.master.quit()
 
     def clear_callback(self):
         pass
-    
+
     def add_callback(self, event):
         """ Add audio file. """
         form_data = self._add.get_form_data()
@@ -84,6 +86,7 @@ class MainAppController(tk.Frame):
         if response.status_code == 200:
             msg_str = f"{form_data.get('title')} added to the database"
             messagebox.showinfo(title='Add Song', message=msg_str)
+            self._close_add_popup()
 
     def delete_callback(self):
         """ Deletes selected song. """
@@ -101,7 +104,7 @@ class MainAppController(tk.Frame):
         self._add_win = tk.Toplevel()
         self._add = AddWindow(self._add_win, self.add_callback, self._close_add_popup)
 
-    def _close_add_popup(self, event):
+    def _close_add_popup(self):
         """ Close Add Popup """
         self._add_win.destroy()
 

@@ -44,8 +44,8 @@ class PlayerWindow(tk.Frame):
         self._file_value.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
 
         tk.Label(mid_frame, text='State:').grid(row=0, column=0, sticky=tk.E, padx=5, pady=5)
-        self._file_value = tk.Label(mid_frame, text='Not Playing')
-        self._file_value.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
+        self.state_value = tk.Label(mid_frame, text='Not Playing')
+        self.state_value.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
 
         # Listbox
         self.list_box = tk.Listbox(right_frame, width=20, height=10)
@@ -73,7 +73,7 @@ class PlayerWindow(tk.Frame):
             .grid(row=0, column=3, sticky=tk.E, padx=10, pady=5)
 
         # Buttons under listbox
-        tk.Button(bot_right_frame, text='Add', width=10, command="") \
+        tk.Button(bot_right_frame, text='Add', width=10, command=controller.add_popup) \
             .grid(row=2, column=1, sticky=tk.E, padx=20, pady=5)
 
         tk.Button(bot_right_frame, text='Delete', width=10, command="") \
@@ -88,5 +88,5 @@ class PlayerWindow(tk.Frame):
             self.list_box.insert(tk.END, title)
 
     def get_form_data(self):
-    	""" returns selected song from the listbox """
-    	return {"index": self.list_box.index('anchor')}
+        """ returns selected song from the listbox """
+        return {"index": self.list_box.index('anchor')}
