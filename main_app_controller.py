@@ -6,7 +6,7 @@ import os
 import requests
 from player_window import PlayerWindow
 from add_window import AddWindow
-
+import vlc
 
 class MainAppController(tk.Frame):
     """ Main Application Window """
@@ -15,30 +15,49 @@ class MainAppController(tk.Frame):
         """ Create the views """
         tk.Frame.__init__(self, parent)
         self._root_win = tk.Toplevel()
-        self._player = PlayerWindow(self._root_win, self, self.listbox_callback)
+        self._player_window = PlayerWindow(self._root_win, self)
         self.listbox_callback()
+        self._vlc_instance = vlc.Instance()
+        self._player = self._vlc_instance.media_player_new()
 
     def play_callback(self):
         """ Play audio file. """
-        pass
+
+        song_index_dict = self._player_window.get_form_data()
+
+        song_id = int(song_index_dict['index']) + 1
+
+        response = requests.get("http://localhost:5000/song/{}".format(song_id))
+
+        media_file = response.json()['file_location']
+
+        media = self._vlc_instance.media_new_path(media_file)
+        self._player.set_media(media)
+        self._player.play()
+        
 
     def pause_callback(self):
         """ Pauses playing audio. """
-        pass
+        if self._player.get_state() == vlc.State.Playing:
+            self._player.pause()
 
     def stop_callback(self):
         """ Stops playing audio. """
-        pass
+        self._player.stop()
+
 
     def resume_callback(self):
         """ Resumes playing stopped audio. """
-        pass
+        if self._player.get_state() == vlc.State.Paused:
+            self._player.pause()
+
 
     def listbox_callback(self):
         """ List titles in listbox. """
         response = requests.get("http://localhost:5000/song/names")
+        self.song_list = response.json()
         title_list = [f'{s["title"]}' for s in response.json()]
-        self._player.set_titles(title_list)  # <--- Error happens here
+        self._player_window.set_titles(title_list)  # <--- Error happens here
 
     def openfile(self):
         pass
@@ -68,7 +87,7 @@ class MainAppController(tk.Frame):
 
     def delete_callback(self):
         """ Deletes selected song. """
-        selected_title = self._player.get_selection()
+        selected_title = self._player_window.get_selection()
         response = requests.get("http://localhost:5000/song/names")
         for title in response.json():
             if title["title"] == selected_title:

@@ -8,7 +8,7 @@ from tkinter import Scrollbar
 class PlayerWindow(tk.Frame):
     """ Layout for the Player Window """
 
-    def __init__(self, parent, controller, list_box_callback):
+    def __init__(self, parent, controller):
         """ Initialize Main Application """
         tk.Frame.__init__(self, parent)
 
@@ -60,16 +60,16 @@ class PlayerWindow(tk.Frame):
         self.list_box.config(yscrollcommand=scrollbar.set)
 
         # Main buttons
-        tk.Button(bot_frame, text='Play', width=10, command="") \
+        tk.Button(bot_frame, text='Play', width=10, command=controller.play_callback) \
             .grid(row=0, column=0, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Pause', width=10, command="") \
+        tk.Button(bot_frame, text='Pause', width=10, command=controller.pause_callback) \
             .grid(row=0, column=1, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Stop', width=10, command="") \
+        tk.Button(bot_frame, text='Stop', width=10, command=controller.stop_callback) \
             .grid(row=0, column=2, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Resume', width=10, command="") \
+        tk.Button(bot_frame, text='Resume', width=10, command=controller.resume_callback) \
             .grid(row=0, column=3, sticky=tk.E, padx=10, pady=5)
 
         # Buttons under listbox
@@ -87,8 +87,6 @@ class PlayerWindow(tk.Frame):
         for title in titles:
             self.list_box.insert(tk.END, title)
 
-    def __repr__(self):
-        """ Replacement repr function """
-        return {
-        'listbox': self.list_box
-        }
+    def get_form_data(self):
+    	""" returns selected song from the listbox """
+    	return {"index": self.list_box.index('anchor')}
