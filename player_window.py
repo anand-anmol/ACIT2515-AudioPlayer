@@ -48,25 +48,25 @@ class PlayerWindow(tk.Frame):
         self._file_value.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
 
         # Listbox
-        self.list_box = tk.Listbox(right_frame, width=20, height=10)
-        self.list_box.grid(row=0, column=0)
+        self.listbox = tk.Listbox(right_frame, width=20, height=10)
+        self.listbox.grid(row=0, column=0)
         # Might want to call listbox here
 
         # Scrollbar
         scrollbar = Scrollbar(right_frame, orient="vertical", width=20)
-        scrollbar.config(command=self.list_box.yview)
+        scrollbar.config(command=self.listbox.yview)
         scrollbar.grid(row=0, column=1, sticky="NS")
 
-        self.list_box.config(yscrollcommand=scrollbar.set)
+        self.listbox.config(yscrollcommand=scrollbar.set)
 
         # Main buttons
-        tk.Button(bot_frame, text='Play', width=10, command="") \
+        tk.Button(bot_frame, text='Play ▶', width=10, command="") \
             .grid(row=0, column=0, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Pause', width=10, command="") \
+        tk.Button(bot_frame, text='Pause ⏸', width=10, command="") \
             .grid(row=0, column=1, sticky=tk.E, padx=10, pady=5)
 
-        tk.Button(bot_frame, text='Stop', width=10, command="") \
+        tk.Button(bot_frame, text='Stop ⏹', width=10, command="") \
             .grid(row=0, column=2, sticky=tk.E, padx=10, pady=5)
 
         tk.Button(bot_frame, text='Resume', width=10, command="") \
@@ -80,10 +80,15 @@ class PlayerWindow(tk.Frame):
             .grid(row=3, column=1, sticky=tk.E, padx=20, pady=5)
 
         # Initial controller calls
-        controller.list_box_callback()
+        controller.listbox_callback()
 
     def set_titles(self, titles):
         """ Update the listbox to display all names """
-        self.list_box.delete(0, tk.END)
+        self.listbox.delete(0, tk.END)
         for title in titles:
-            self.list_box.insert(tk.END, title)
+            self.listbox.insert(tk.END, title)
+
+    def get_selection(self):
+        """ Returns selection from listbox """
+        selection = self.listbox.get("anchor")
+        return selection
