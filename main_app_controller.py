@@ -37,9 +37,9 @@ class MainAppController(tk.Frame):
         self._player.play()
         self._player_window.state_value['text'] = "Playing"
 
-    def pause_callback(self):
+    def pause_resume_callback(self):
         """ Pauses playing audio. """
-        if self._player.get_state() == vlc.State.Playing:
+        if self._player.get_state() == vlc.State.Playing or self._player.get_state() == vlc.State.Paused:
             self._player.pause()
             self._player_window.state_value['text'] = "Paused"
 
@@ -47,12 +47,6 @@ class MainAppController(tk.Frame):
         """ Stops playing audio. """
         self._player.stop()
         self._player_window.state_value['text'] = "Not Playing"
-
-    def resume_callback(self):
-        """ Resumes playing stopped audio. """
-        if self._player.get_state() == vlc.State.Paused:
-            self._player.pause()
-            self._player_window.state_value['text'] = "Playing"
 
     def listbox_callback(self):
         """ List titles in listbox. """
