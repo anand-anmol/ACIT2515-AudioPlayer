@@ -5,3 +5,4 @@ __pycache__/player_window.cpython-37.pyc
 .idea/ACIT2515-AudioPlayer.iml
 .gitignore.txt
 *.pyc
+*.mp3

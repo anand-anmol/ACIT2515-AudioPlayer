@@ -73,7 +73,7 @@ class PlayerWindow(tk.Frame):
             .grid(row=0, column=3, sticky=tk.E, padx=10, pady=5)
 
         # Buttons under listbox
-        tk.Button(bot_right_frame, text='Add', width=10, command="") \
+        tk.Button(bot_right_frame, text='Add', width=10, command=controller.add_popup) \
             .grid(row=2, column=1, sticky=tk.E, padx=20, pady=5)
 
         tk.Button(bot_right_frame, text='Delete', width=10, command="") \
