@@ -87,3 +87,9 @@ class PlayerWindow(tk.Frame):
         self.list_box.delete(0, tk.END)
         for title in titles:
             self.list_box.insert(tk.END, title)
+
+    def __repr__(self):
+        """ Replacement repr function """
+        return {
+        'listbox': self.list_box
+        }

@@ -1,7 +1,6 @@
 
 song_db.sqlite
 __pycache__/player_window.cpython-37.pyc
-*.xml
-.idea/ACIT2515-AudioPlayer.iml
-.gitignore.txt
+*.iml
 *.pyc
+*.xml
