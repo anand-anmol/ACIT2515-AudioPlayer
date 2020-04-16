@@ -36,20 +36,14 @@ class MainAppController(tk.Frame):
         self._player.play()
         
 
-    def pause_callback(self):
+    def pause_resume_callback(self):
         """ Pauses playing audio. """
-        if self._player.get_state() == vlc.State.Playing:
+        if self._player.get_state() == vlc.State.Playing or self._player.get_state() == vlc.State.Paused:
             self._player.pause()
 
     def stop_callback(self):
         """ Stops playing audio. """
         self._player.stop()
-
-
-    def resume_callback(self):
-        """ Resumes playing stopped audio. """
-        if self._player.get_state() == vlc.State.Paused:
-            self._player.pause()
 
 
     def listbox_callback(self):
