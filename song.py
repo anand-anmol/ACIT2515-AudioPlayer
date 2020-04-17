@@ -82,3 +82,9 @@ class Song(AudioFile):
             song_details = "Song is missing info, cannot display"
 
         return song_details
+
+    def play_song(self):
+        """ updates the play count and last played values """
+
+        self.play_count += 1
+        self.last_played = datetime.now()

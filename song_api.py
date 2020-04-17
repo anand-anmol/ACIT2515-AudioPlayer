@@ -37,6 +37,22 @@ def add_song():
         )
     return response
 
+@app.route('/play_song/<string:song_title>', methods=['POST'])
+def play_song(song_title):
+    """ Updates the play count and last played values in the database """
+    try:
+        song = song_mgr.get_song_by_name(song_title)
+        song_mgr.play_song(song)
+    except ValueError:
+        print(f"Song {song.title} does not exist")
+
+    response = app.response_class(
+            status=200,
+            mimetype='application/json'
+        )
+
+    return response
+
 
 @app.route('/song/<string:song_id>', methods=['GET'])
 def get_song(song_id):
@@ -59,6 +75,26 @@ def get_song(song_id):
         )
         return response
 
+@app.route('/song/name/<string:song_title>', methods=['GET'])
+def get_song_by_name(song_title):
+    """ Get a song from the database """
+    try:
+        song = song_mgr.get_song_by_name(song_title)
+        if song is None:
+            raise ValueError(f"song {song_title} does not exist")
+
+        response = app.response_class(
+            status=200,
+            response=json.dumps(song.meta_data()),
+            mimetype='application/json'
+        )
+        return response
+    except ValueError as e:
+        response = app.response_class(
+            response=str(e),
+            status=404
+        )
+        return response
 
 @app.route('/song/random', methods=['GET'])
 def random_song():

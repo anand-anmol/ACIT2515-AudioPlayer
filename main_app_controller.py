@@ -24,11 +24,9 @@ class MainAppController(tk.Frame):
     def play_callback(self):
         """ Play audio file. """
 
-        song_index_dict = self._player_window.get_form_data()
+        song_name_dict = self._player_window.get_form_data()
 
-        song_id = int(song_index_dict['index']) + 1
-
-        response = requests.get("http://localhost:5000/song/{}".format(song_id))
+        response = requests.get("http://localhost:5000/song/name/{}".format(song_name_dict['title']))
 
         media_file = response.json()['file_location']
 
@@ -37,6 +35,8 @@ class MainAppController(tk.Frame):
         self._player.play()
         self._player_window.state_value['text'] = "Playing"
         self._player_window.title_value['text'] = response.json()['title']
+
+        play_response = requests.post("http://localhost:5000/play_song/{}".format(song_name_dict['title']))
 
     def pause_resume_callback(self):
         """ Pauses playing audio. """

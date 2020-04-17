@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
-
+from datetime import datetime
 from song import Song
 
 
@@ -69,6 +69,21 @@ class SongManager:
 
         return song
 
+    def get_song_by_name(self, title):
+        """ Return song object matching ID"""
+        if title is None or type(title) != str:
+            raise ValueError("Invalid Song ID")
+
+        session = self._db_session()
+
+        song = session.query(Song).filter(
+                Song.title == title).first()
+
+        session.close()
+
+        return song
+
+
     def delete_song(self, id):
         """ Delete a song from the database """
         if id is None or type(id) != str:
@@ -103,4 +118,18 @@ class SongManager:
         session = self._db_session()
         session.query(Song).delete()
         session.commit()
-        session.close()
+        session.close
+
+    def play_song(self, song):
+        """ Updates the play count and last played values of songs """
+        session = self._db_session()
+
+        existing_song = session.query(Song).filter(Song.title == song.title).first()
+        if existing_song is None:
+            raise ValueError(f"Song {song.title} does not exist")
+
+        existing_song.play_song()
+
+
+        session.commit()
+        session.close

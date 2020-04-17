@@ -90,4 +90,4 @@ class PlayerWindow(tk.Frame):
 
     def get_form_data(self):
         """ returns selected song from the listbox """
-        return {"index": self.list_box.index('anchor')}
+        return {"title": self.list_box.get('anchor')}
