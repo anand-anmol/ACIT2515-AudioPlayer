@@ -64,7 +64,8 @@ class PlayerWindow(tk.Frame):
             .grid(row=0, column=0, sticky=tk.E, padx=10, pady=5)
 
         tk.Button(bot_frame, text='Stop', width=10, command=controller.stop_callback) \
-       
+       		.grid(row=0, column=2, sticky=tk.E, padx=10, pady=5)
+       		
         tk.Button(bot_frame, text='Pause/Resume', width=10, command=controller.pause_resume_callback) \
             .grid(row=0, column=1, sticky=tk.E, padx=10, pady=5)
 

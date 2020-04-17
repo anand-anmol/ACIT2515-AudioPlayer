@@ -39,9 +39,13 @@ class MainAppController(tk.Frame):
 
     def pause_resume_callback(self):
         """ Pauses playing audio. """
-        if self._player.get_state() == vlc.State.Playing or self._player.get_state() == vlc.State.Paused:
+        if self._player.get_state() == vlc.State.Playing:
             self._player.pause()
             self._player_window.state_value['text'] = "Paused"
+
+        elif self._player.get_state() == vlc.State.Paused:
+            self._player.pause()
+            self._player_window.state_value['text'] = "Playing"            
 
     def stop_callback(self):
         """ Stops playing audio. """
