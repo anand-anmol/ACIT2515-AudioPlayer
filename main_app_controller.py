@@ -36,8 +36,7 @@ class MainAppController(tk.Frame):
         self._player.set_media(media)
         self._player.play()
         self._player_window.state_value['text'] = "Playing"
-
-        self._player_window._file_value['text'] = response.json()['title']
+        self._player_window.title_value['text'] = response.json()['title']
 
     def pause_resume_callback(self):
         """ Pauses playing audio. """
@@ -59,7 +58,7 @@ class MainAppController(tk.Frame):
         response = requests.get("http://localhost:5000/song/names")
         self.song_list = response.json()
         title_list = [f'{s["title"]}' for s in response.json()]
-        self._player_window.set_titles(title_list)  # <--- Error happens here
+        self._player_window.set_titles(title_list)
 
     def openfile(self):
         pass
@@ -88,17 +87,21 @@ class MainAppController(tk.Frame):
             messagebox.showinfo(title='Add Song', message=msg_str)
             self._close_add_popup(event)
             self.listbox_callback()
+        else:
+            messagebox.showerror(title='Error', message='Something went wrong, song not added.')
 
     def delete_callback(self):
         """ Deletes selected song. """
-        selected_title = self._player_window.get_selection()
-        response = requests.get("http://localhost:5000/song/names")
-        for title in response.json():
-            if title["title"] == selected_title:
-                response = requests.delete("http://localhost:5000/song/names" + title["title"])
+        song_index_dict = self._player_window.get_form_data()
+        song_id = int(song_index_dict['index']) + 1
+
+        response = requests.delete(f"http://localhost:5000/song/{song_id}")
+
         if response.status_code == 200:
-            msg_str = f'{selected_title} has been deleted'
-            messagebox.showinfo(title='Delete Song', message=msg_str)
+            messagebox.showinfo(title='Delete Song', message='Song deleted.')
+            self.listbox_callback()
+        else:
+            messagebox.showerror(title='Error', message='Something went wrong, song not deleted.')
 
     def add_popup(self):
         """ Show add popup window """
