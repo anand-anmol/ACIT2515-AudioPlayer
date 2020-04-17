@@ -39,8 +39,8 @@ class PlayerWindow(tk.Frame):
         bot_right_frame.grid(row=2, column=1, padx=10, pady=10)
 
         # Labels
-        tk.Label(top_frame, text='File:').grid(row=0, column=0, sticky=tk.E, padx=5, pady=5)
-        self._file_value = tk.Label(top_frame, text='Test')
+        tk.Label(top_frame, text='Song:').grid(row=0, column=0, sticky=tk.E, padx=5, pady=5)
+        self._file_value = tk.Label(top_frame, text='')
         self._file_value.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
 
         tk.Label(mid_frame, text='State:').grid(row=0, column=0, sticky=tk.E, padx=5, pady=5)

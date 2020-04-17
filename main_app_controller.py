@@ -37,6 +37,8 @@ class MainAppController(tk.Frame):
         self._player.play()
         self._player_window.state_value['text'] = "Playing"
 
+        self._player_window._file_value['text'] = response.json()['title']
+
     def pause_resume_callback(self):
         """ Pauses playing audio. """
         if self._player.get_state() == vlc.State.Playing:
@@ -84,7 +86,7 @@ class MainAppController(tk.Frame):
         if response.status_code == 200:
             msg_str = f"{form_data.get('title')} added to the database"
             messagebox.showinfo(title='Add Song', message=msg_str)
-            self._close_add_popup()
+            self._close_add_popup(event)
             self.listbox_callback()
 
     def delete_callback(self):
@@ -103,7 +105,7 @@ class MainAppController(tk.Frame):
         self._add_win = tk.Toplevel()
         self._add = AddWindow(self._add_win, self.add_callback, self._close_add_popup)
 
-    def _close_add_popup(self):
+    def _close_add_popup(self, event):
         """ Close Add Popup """
         self._add_win.destroy()
 
