@@ -164,22 +164,24 @@ def get_all_names():
     return response
 
 
-@app.route('/song/<string:song_id>', methods=['PUT'])
-def update_song(song_id):
+@app.route('/song/<string:song_number_in_listbox>', methods=['PUT'])
+def update_song(song_number_in_listbox):
     """ Update the song information  """
     content = request.json
+
+    songs = song_mgr.get_all_songs()
+
+    try:
+        song = songs[int(song_number_in_listbox)]
+    except IndexError:
+        print(f"Song {song_number_in_listbox} does not exist")
 
     if not 'genre' in content.keys():
         content['genre'] = None
 
     try:
-        song = song_mgr.get_song(song_id)
-        song.title = content['title']
-        song.artist = content['artist']
-        song.album = content['album']
-        song.runtime = content['runtime']
-        song.file_location = content['file_location']
         song.genre = content['genre']
+        song.rating = content['rating']
         song_mgr.update_song(song)
         response = app.response_class(
             status=200

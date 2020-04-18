@@ -45,10 +45,9 @@ class SongManager:
 
         session = self._db_session()
 
-        existing_song = session.query(Song).filter(
-                Song.id == song.id).first()
+        existing_song = session.query(Song).filter(Song.title == song.title).first()
         if existing_song is None:
-            raise ValueError(f"Song {song.id} does not exist")
+            raise ValueError(f"Song {song.title} does not exist")
 
         existing_song.update(song)
 
