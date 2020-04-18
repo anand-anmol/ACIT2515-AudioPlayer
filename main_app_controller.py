@@ -269,7 +269,7 @@ class MainAppController(tk.Frame):
     def play_queue_callback(self, event):
         """ Plays next song in queue (first if none already played). """
         try:
-            if len(self._queue_list) > self.queue_pos:
+            if (len(self._queue_list) - 1) != self.queue_pos:
                 self.queue_pos = self.queue_pos + 1
                 media_file = self._queue_list[self.queue_pos]['file_location']
 
@@ -281,6 +281,8 @@ class MainAppController(tk.Frame):
                 self._player_window.title_value['text'] = self._queue_list[self.queue_pos]['title']
 
                 play_response = requests.post(f"http://localhost:5000/play_song/{self._queue_list[self.queue_pos]}")
+            else:
+                messagebox.showerror(title='Error', message='No songs left in queue!')
         except IndexError:
             messagebox.showerror(title='Error', message='No songs left in queue!')
 
