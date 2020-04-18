@@ -152,8 +152,11 @@ def update_song(song_number_in_listbox):
     if 'genre' not in content.keys():
         content['genre'] = None
 
+
+
     try:
-        song.set_rating(int(content['rating']))
+        if content['rating'].isnumeric():
+            song.set_rating(int(content['rating']))
         song.genre = content['genre']
         print(content['rating'])
         song_mgr.update_song(song)
