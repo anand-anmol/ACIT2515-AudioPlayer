@@ -29,7 +29,7 @@ class MainAppController(tk.Frame):
         self.listbox_callback()
         self._vlc_instance = vlc.Instance()
         self._player = self._vlc_instance.media_player_new()
-        self.queue_pos = 0
+        self.queue_pos = -1
         self._queue_list = []
 
     def play_callback(self):
@@ -229,8 +229,8 @@ class MainAppController(tk.Frame):
     def queue_popup(self):
         """ Show add popup window """
         self._queue_win = tk.Toplevel()
-        self._queue = QueueWindow(self._queue_win, self.play_queue_callback, self.clear_queue_callback(),
-                                  self.remove_from_queue_callback, self._close_queue_popup)
+        self._queue = QueueWindow(self._queue_win, self.play_queue_callback, self.play_previous_callback,
+                                  self.clear_queue_callback, self.remove_from_queue_callback, self._close_queue_popup)
         self.queue_list_box_callback()
 
     def _close_queue_popup(self, event):
@@ -246,7 +246,7 @@ class MainAppController(tk.Frame):
             self._queue_list.append(response.json())
             messagebox.showinfo(title='Add to Queue', message='Song added to queue!')
 
-    def clear_queue_callback(self):
+    def clear_queue_callback(self, event):
         """ Resets the queue position. """
         self.queue_pos = 0
 
@@ -269,20 +269,41 @@ class MainAppController(tk.Frame):
     def play_queue_callback(self, event):
         """ Plays next song in queue (first if none already played). """
         try:
-            media_file = self._queue_list[self.queue_pos]['file_location']
+            if len(self._queue_list) > self.queue_pos:
+                self.queue_pos = self.queue_pos + 1
+                media_file = self._queue_list[self.queue_pos]['file_location']
 
-            media = self._vlc_instance.media_new_path(media_file)
+                media = self._vlc_instance.media_new_path(media_file)
 
-            self._player.set_media(media)
-            self._player.play()
-            self._player_window.state_value['text'] = "Playing"
-            self._player_window.title_value['text'] = self._queue_list[self.queue_pos]['title']
+                self._player.set_media(media)
+                self._player.play()
+                self._player_window.state_value['text'] = "Playing"
+                self._player_window.title_value['text'] = self._queue_list[self.queue_pos]['title']
 
-            play_response = requests.post(f"http://localhost:5000/play_song/{self._queue_list[self.queue_pos]}")
-
-            self.queue_pos += 1
+                play_response = requests.post(f"http://localhost:5000/play_song/{self._queue_list[self.queue_pos]}")
         except IndexError:
             messagebox.showerror(title='Error', message='No songs left in queue!')
+
+    def play_previous_callback(self, event):
+        """ Plays previous song in queue. """
+        if self.queue_pos > 0:
+            try:
+                self.queue_pos = self.queue_pos - 1
+
+                media_file = self._queue_list[self.queue_pos]['file_location']
+
+                media = self._vlc_instance.media_new_path(media_file)
+
+                self._player.set_media(media)
+                self._player.play()
+                self._player_window.state_value['text'] = "Playing"
+                self._player_window.title_value['text'] = self._queue_list[self.queue_pos]['title']
+
+                play_response = requests.post(f"http://localhost:5000/play_song/{self._queue_list[self.queue_pos]}")
+            except IndexError:
+                messagebox.showerror(title='Error', message='No songs left in queue!')
+        else:
+            messagebox.showerror(title='Error', message='This is the first song!')
 
 
 if __name__ == "__main__":
