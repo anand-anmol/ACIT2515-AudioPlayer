@@ -161,7 +161,10 @@ class MainAppController(tk.Frame):
 
         new_file_path = os.path.join('mp3', f"{data['title']}.mp3")
 
-        os.rename(file_path, new_file_path)
+        if not os.path.exists(new_file_path):
+            os.rename(file_path, new_file_path)
+        else:
+	        messagebox.showinfo(title='Add Song', message=f"file with the name {data['title']}.mp3 already exists.")
 
         data['file_location'] = new_file_path
 
