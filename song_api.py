@@ -157,7 +157,8 @@ def update_song(song_number_in_listbox: str):
     try:
         if content['rating'].isnumeric():
             song.set_rating(int(content['rating']))
-        song.genre = content['genre']
+        if content['genre'] != "":
+            song.genre = content['genre']
         print(content['rating'])
         song_mgr.update_song(song)
         response = app.response_class(
