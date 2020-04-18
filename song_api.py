@@ -59,7 +59,7 @@ def play_song(song_number_in_listbox):
 
 
 @app.route('/song/<string:song_id>', methods=['GET'])
-def get_song(song_id):
+def get_song(song_id: str):
     """ Get a song from the database """
     try:
         song = song_mgr.get_song(song_id)
@@ -81,7 +81,7 @@ def get_song(song_id):
 
 
 @app.route('/song/name/<string:song_title>', methods=['GET'])
-def get_song_by_name(song_title):
+def get_song_by_name(song_title: str):
     """ Get a song from the database """
     try:
         song = song_mgr.get_song_by_name(song_title)
@@ -103,7 +103,7 @@ def get_song_by_name(song_title):
 
 
 @app.route('/song/<string:song_number_in_listbox>', methods=['DELETE'])
-def delete_song(song_number_in_listbox):
+def delete_song(song_number_in_listbox: str):
     """ Delete a song from the DB   """
     songs = song_mgr.get_all_songs()
 
@@ -138,7 +138,7 @@ def get_all_names():
 
 
 @app.route('/song/<string:song_number_in_listbox>', methods=['PUT'])
-def update_song(song_number_in_listbox):
+def update_song(song_number_in_listbox: str):
     """ Update the song information  """
     content = request.json
 

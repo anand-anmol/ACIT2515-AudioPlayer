@@ -21,7 +21,7 @@ class SongManager:
 
         self._db_session = sessionmaker(bind=engine)
 
-    def add_song(self, song):
+    def add_song(self, song: Song):
         """ Adds a new song """
 
         if song is None or not isinstance(song, Song):
@@ -38,7 +38,7 @@ class SongManager:
 
         return song_id
 
-    def update_song(self, object):
+    def update_song(self, object: Song):
         """ Update existing song to match song_update """
         if object is None or not isinstance(object, Song):
             raise ValueError("Invalid Song Object")
@@ -55,7 +55,7 @@ class SongManager:
         session.commit()
         session.close()
 
-    def get_song(self, id):
+    def get_song(self, id: str) -> Song:
         """ Return song object matching ID"""
         if id is None or type(id) != str:
             raise ValueError("Invalid Song ID")
@@ -69,7 +69,7 @@ class SongManager:
 
         return song
 
-    def get_song_by_name(self, title):
+    def get_song_by_name(self, title: str) -> Song:
         """ Return song object matching ID"""
         if title is None or type(title) != str:
             raise ValueError("Invalid Song ID")
@@ -84,7 +84,7 @@ class SongManager:
         return song
 
 
-    def delete_song(self, song):
+    def delete_song(self, song: Song):
         """ Delete a song from the database """
 
         if not isinstance(song, Song):
@@ -116,7 +116,7 @@ class SongManager:
         session.commit()
         session.close
 
-    def play_song(self, song):
+    def play_song(self, song: Song):
         """ Updates the play count and last played values of songs """
         session = self._db_session()
 

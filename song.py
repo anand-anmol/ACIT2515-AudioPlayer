@@ -48,6 +48,7 @@ class Song(AudioFile):
         return self.runtime
 
     def set_genre(self, update: str):
+        """ setter for the genre attribute """
         try:
             if self.genre is not None and update.strip() not in self.genre:
                 self.genre += ",", update
