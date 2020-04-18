@@ -62,7 +62,7 @@ class PlayerWindow(tk.Frame):
 
         self.list_box.config(yscrollcommand=vert_scrollbar.set)
 
-        # Vertical Scrollbar
+        # Horizontal Scrollbar
         hor_scrollbar = Scrollbar(right_frame, orient="horizontal", width=20)
         hor_scrollbar.config(command=self.list_box.xview)
         hor_scrollbar.grid(row=1, column=0, sticky="WE")

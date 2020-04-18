@@ -27,18 +27,26 @@ class QueueWindow(tk.Frame):
         # Listbox
         self.list_box = tk.Listbox(self.top_frame, width=20, height=10)
         self.list_box.grid(row=0, column=0)
+        self.list_box.config(width=25)
 
-        # Scrollbar
-        scrollbar = Scrollbar(self.top_frame, orient="vertical", width=20)
-        scrollbar.config(command=self.list_box.yview)
-        scrollbar.grid(row=0, column=1, sticky="NS")
+        # Vertical Scrollbar
+        vert_scrollbar = Scrollbar(self.top_frame, orient="vertical", width=20)
+        vert_scrollbar.config(command=self.list_box.yview)
+        vert_scrollbar.grid(row=0, column=1, sticky="NS")
 
-        self.list_box.config(yscrollcommand=scrollbar.set)
+        self.list_box.config(yscrollcommand=vert_scrollbar.set)
+
+        # Horizontal Scrollbar
+        hor_scrollbar = Scrollbar(self.top_frame, orient="horizontal", width=20)
+        hor_scrollbar.config(command=self.list_box.xview)
+        hor_scrollbar.grid(row=1, column=0, sticky="WE")
+
+        self.list_box.config(xscrollcommand=hor_scrollbar.set)
 
         # Position label
-        tk.Label(self.top_frame, text='Queue Position:').grid(row=1, column=0, sticky=tk.N, padx=0, pady=5)
+        tk.Label(self.top_frame, text='Queue Position:').grid(row=2, column=0, sticky=tk.N, padx=0, pady=5)
         self.position_value = tk.Label(self.top_frame, text='0')
-        self.position_value.grid(row=1, column=1, sticky=tk.W, padx=0, pady=5)
+        self.position_value.grid(row=2, column=1, sticky=tk.W, padx=0, pady=5)
 
         # Buttons
         self.next_button = tk.Button(self.bot_frame, text='Play Next', width=10)
