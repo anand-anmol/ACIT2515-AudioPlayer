@@ -76,7 +76,7 @@ class PlayerWindow(tk.Frame):
         tk.Button(bot_right_frame, text='Add Manually', width=10, command=controller.add_manually_popup) \
             .grid(row=2, column=1, sticky=tk.E, padx=20, pady=5)
 
-        tk.Button(bot_right_frame, text='Add via URL', width=10, command="") \
+        tk.Button(bot_right_frame, text='Add via URL', width=10, command=controller.add_via_url_popup) \
             .grid(row=2, column=2, sticky=tk.E, padx=20, pady=5)
 
         tk.Button(bot_right_frame, text='Delete', width=10, command=controller.delete_callback) \

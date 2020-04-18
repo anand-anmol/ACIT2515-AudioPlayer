@@ -72,6 +72,26 @@ class MainAppController(tk.Frame):
 
         audio = eyed3.load(adjusted_path)
 
+        data = MainAppController.__load_file(selected_file)
+
+        response = requests.post("http://localhost:5000/song", json=data)
+
+        if response.status_code == 200:
+            msg_str = f"Song added to the database."
+            messagebox.showinfo(title='Add Song', message=msg_str)
+            self.listbox_callback()
+        else:
+            messagebox.showerror(title='Error', message='Something went wrong, song not added.')
+
+    def quit_callback(self):
+        """ Exit the application. """
+        self.master.quit()
+
+    @classmethod
+    def __load_file(cls, selected_file):
+        """ loads the mp3 file data using ide tags """
+        audio = eyed3.load(selected_file)
+
         title = audio.tag.title
         artist = audio.tag.artist
         album = audio.tag.album
@@ -89,18 +109,7 @@ class MainAppController(tk.Frame):
                 'file_location': adjusted_path,
                 'genre': genre}
 
-        response = requests.post("http://localhost:5000/song", json=data)
-
-        if response.status_code == 200:
-            msg_str = f"Song added to the database."
-            messagebox.showinfo(title='Add Song', message=msg_str)
-            self.listbox_callback()
-        else:
-            messagebox.showerror(title='Error', message='Something went wrong, song not added.')
-
-    def quit_callback(self):
-        """ Exit the application. """
-        self.master.quit()
+        return data
 
     def clear_callback(self):
         pass
@@ -120,10 +129,43 @@ class MainAppController(tk.Frame):
         if response.status_code == 200:
             msg_str = f"{form_data.get('title')} added to the database"
             messagebox.showinfo(title='Add Song', message=msg_str)
-            self._close_popup(event)
+            self._close_add_manually_popup(event)
             self.listbox_callback()
         else:
             messagebox.showerror(title='Error', message='Something went wrong, song not added.')
+
+    def add_via_url_callback(self, event):
+        """ Add audio file via URL """
+        url = self._add_via_url.get_form_data()['URL']
+
+        r = requests.get(url)
+
+        if not os.path.exists('mp3'):
+            os.makedirs('mp3')
+
+        file_path = os.path.join('mp3', 'remote_audio.mp3')
+
+        with open(file_path, "wb") as f:
+            f.write(r.content)
+
+        data = MainAppController.__load_file(file_path)
+
+        new_file_path = os.path.join('mp3', f"{data['title']}.mp3")
+
+        os.rename(file_path, new_file_path)
+
+        data['file_location'] = new_file_path
+
+        response = requests.post("http://localhost:5000/song", json=data)
+        if response.status_code == 200:
+            msg_str = f"{data['title']} added to the database"
+            messagebox.showinfo(title='Add Song', message=msg_str)
+            self._close_add_via_url_popup(event)
+            self.listbox_callback()
+        else:
+            messagebox.showerror(title='Error', message='Something went wrong, song not added.')
+
+
 
     def delete_callback(self):
         """ Deletes selected song. """
@@ -140,16 +182,23 @@ class MainAppController(tk.Frame):
     def add_manually_popup(self):
         """ Show add popup window """
         self._add_win = tk.Toplevel()
-        self._add = AddManuallyWindow(self._add_win, self.add_manually_callback, self._close_popup)
+        self._add = AddManuallyWindow(self._add_win, self.add_manually_callback, self._close_add_manually_popup)
 
     def add_via_url_popup(self):
         """ Show add via url popup window """
         self._add_via_url_win = tk.Toplevel()
         self._add_via_url = AddViaUrlWindow()
+    	""" Show add via url popup window """
+    	self._add_via_url_win = tk.Toplevel()
+    	self._add_via_url = AddViaUrlWindow(self._add_via_url_win, self.add_via_url_callback, self._close_add_via_url_popup)
 
-    def _close_popup(self, event):
+    def _close_add_manually_popup(self, event):
         """ Close Add Popup """
         self._add_win.destroy()
+
+    def _close_add_via_url_popup(self, event):
+        """ Close Add Popup """
+        self._add_via_url_win.destroy()
 
 
 if __name__ == "__main__":
