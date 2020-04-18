@@ -1,4 +1,3 @@
-from time import sleep
 import tkinter as tk
 from math import floor
 from tkinter import messagebox
