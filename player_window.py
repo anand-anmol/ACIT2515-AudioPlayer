@@ -53,14 +53,21 @@ class PlayerWindow(tk.Frame):
         # Listbox
         self.list_box = tk.Listbox(right_frame, width=20, height=10)
         self.list_box.grid(row=0, column=0)
-        # Might want to call listbox here
+        self.list_box.config(width=25)
 
-        # Scrollbar
-        scrollbar = Scrollbar(right_frame, orient="vertical", width=20)
-        scrollbar.config(command=self.list_box.yview)
-        scrollbar.grid(row=0, column=1, sticky="NS")
+        # Vertical Scrollbar
+        vert_scrollbar = Scrollbar(right_frame, orient="vertical", width=20)
+        vert_scrollbar.config(command=self.list_box.yview)
+        vert_scrollbar.grid(row=0, column=1, sticky="NS")
 
-        self.list_box.config(yscrollcommand=scrollbar.set)
+        self.list_box.config(yscrollcommand=vert_scrollbar.set)
+
+        # Vertical Scrollbar
+        hor_scrollbar = Scrollbar(right_frame, orient="horizontal", width=20)
+        hor_scrollbar.config(command=self.list_box.xview)
+        hor_scrollbar.grid(row=1, column=0, sticky="WE")
+
+        self.list_box.config(xscrollcommand=hor_scrollbar.set)
 
         # Main buttons
         tk.Button(bot_frame, text='Play ▶', width=10, command=controller.play_callback) \
