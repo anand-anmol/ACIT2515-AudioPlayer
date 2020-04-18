@@ -10,6 +10,7 @@ from add_manually_window import AddManuallyWindow
 import vlc
 import eyed3
 from add_via_url_window import AddViaUrlWindow
+from update_song import UpdateWindow
 
 
 class MainAppController(tk.Frame):
@@ -23,6 +24,7 @@ class MainAppController(tk.Frame):
         self.listbox_callback()
         self._vlc_instance = vlc.Instance()
         self._player = self._vlc_instance.media_player_new()
+        self._queue = []
 
     def play_callback(self):
         """ Play audio file. """
@@ -196,6 +198,33 @@ class MainAppController(tk.Frame):
     def _close_add_via_url_popup(self, event):
         """ Close Add Popup """
         self._add_via_url_win.destroy()
+
+    def update_popup(self):
+        """ Show update popup window """
+        self._update_win = tk.Toplevel()
+        self._update = UpdateWindow(self._update_win, self.update_song_callback, self._close_update_popup)
+
+    def _close_update_popup(self, event):
+        """ Close update Popup """
+        self._update_win.destroy()
+
+    def update_song_callback(self, event):
+        """ Update audio file. """
+        form_data = self._add.get_form_data()
+
+        data = {
+                'genre': form_data.get('genre'),
+                'rating': form_data.get('rating')
+                }
+
+        response = requests.post("http://localhost:5000/song/update", json=data)
+        if response.status_code == 200:
+            msg_str = f"{form_data.get('title')} has been updated."
+            messagebox.showinfo(title='Add Song', message=msg_str)
+            self._close_update_popup(event)
+            self.listbox_callback()
+        else:
+            messagebox.showerror(title='Error', message='Something went wrong, song not updated.')
 
 
 if __name__ == "__main__":
