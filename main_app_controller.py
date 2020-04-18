@@ -6,7 +6,7 @@ from tkinter.filedialog import askopenfilename
 import os
 import requests
 from player_window import PlayerWindow
-from add_window import AddWindow
+from add_manually_window import AddManuallyWindow
 import vlc
 import eyed3
 
@@ -99,7 +99,7 @@ class MainAppController(tk.Frame):
     def clear_callback(self):
         pass
 
-    def add_callback(self, event):
+    def add_manually_callback(self, event):
         """ Add audio file. """
         form_data = self._add.get_form_data()
 
@@ -114,7 +114,7 @@ class MainAppController(tk.Frame):
         if response.status_code == 200:
             msg_str = f"{form_data.get('title')} added to the database"
             messagebox.showinfo(title='Add Song', message=msg_str)
-            self._close_add_popup(event)
+            self._close_popup(event)
             self.listbox_callback()
         else:
             messagebox.showerror(title='Error', message='Something went wrong, song not added.')
@@ -131,12 +131,12 @@ class MainAppController(tk.Frame):
         else:
             messagebox.showerror(title='Error', message='Something went wrong, song not deleted.')
 
-    def add_popup(self):
+    def add_manually_popup(self):
         """ Show add popup window """
         self._add_win = tk.Toplevel()
-        self._add = AddWindow(self._add_win, self.add_callback, self._close_add_popup)
+        self._add = AddManuallyWindow(self._add_win, self.add_manually_callback, self._close_popup)
 
-    def _close_add_popup(self, event):
+    def _close_popup(self, event):
         """ Close Add Popup """
         self._add_win.destroy()
 

@@ -1,7 +1,7 @@
 import tkinter as tk
 
 
-class AddWindow(tk.Frame):
+class AddManuallyWindow(tk.Frame):
     """ Layout for the Chooser Window """
 
     def __init__(self, parent, add_callback, close_callback):
