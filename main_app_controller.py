@@ -67,23 +67,24 @@ class MainAppController(tk.Frame):
         selected_file = askopenfilename(initialdir='.', defaultextension='.mp3')
         audio = eyed3.load(selected_file)
 
-        tags = {'title': '', 'artist': '', 'album': '', 'genre': ''}
-
-        for field in tags.keys():
-            value = getattr(audio.tag, field)
-            if field == 'genre':
-                tags[field] = value._name
-            else:
-                tags[field] = value
+        title = audio.tag.title
+        artist = audio.tag.artist
+        album = audio.tag.album
+        genre = audio.tag.genre._name
 
         runtime_secs = audio.info.time_secs
         runtime_mins = int(runtime_secs // 60)
 
-        tags['runtime'] = str(runtime_mins) + ':' + str(floor(runtime_secs) - (runtime_mins * 60))
+        runtime = str(runtime_mins) + ':' + str(floor(runtime_secs) - (runtime_mins * 60))
 
-        print(tags)
+        data = {'title': title,
+                'artist': artist,
+                'album': album,
+                'runtime': runtime,
+                'file_location': selected_file,
+                'genre': genre}
 
-        response = requests.post("http://localhost:5000/song", json=tags)
+        response = requests.post("http://localhost:5000/song", json=data)
 
         if response.status_code == 200:
             msg_str = f"Song added to the database."
