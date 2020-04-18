@@ -5,10 +5,11 @@ from tkinter import Scrollbar
 class QueueWindow(tk.Frame):
     """ Layout for the Chooser Window """
 
-    def __init__(self, parent, play_queue_callback, clear_callback, remove_callback, close_callback):
+    def __init__(self, parent, play_queue_callback, play_previous, clear_callback, remove_callback, close_callback):
         """ Initialize the popup listbox window """
         tk.Frame.__init__(self, parent)
         self._play_queue_cb = play_queue_callback
+        self._play_previous_cb = play_previous
         self._clear_cb = clear_callback
         self._remove_cb = remove_callback
         self._close_cb = close_callback
@@ -26,7 +27,6 @@ class QueueWindow(tk.Frame):
         # Listbox
         self.list_box = tk.Listbox(self.top_frame, width=20, height=10)
         self.list_box.grid(row=0, column=0)
-        # Might want to call listbox here
 
         # Scrollbar
         scrollbar = Scrollbar(self.top_frame, orient="vertical", width=20)
@@ -37,19 +37,23 @@ class QueueWindow(tk.Frame):
 
         # Buttons
         self.next_button = tk.Button(self.bot_frame, text='Play Next', width=10)
-        self.next_button.grid(row=10, padx=10, pady=5)
+        self.next_button.grid(row=10, column=1, padx=10, pady=5)
         self.next_button.bind("<Button-1>", self._play_queue_cb)
 
+        self.previous_button = tk.Button(self.bot_frame, text='Play Previous', width=10)
+        self.previous_button.grid(row=10, column=2, padx=10, pady=5)
+        self.previous_button.bind("<Button-1>", self._play_previous_cb)
+
         self.clear_button = tk.Button(self.bot_frame, text='Reset Queue', width=10)
-        self.clear_button.grid(row=11, padx=10, pady=5)
+        self.clear_button.grid(row=11, column=1, padx=10, pady=5)
         self.clear_button.bind("<Button-1>", self._clear_cb)
 
         self.remove_button = tk.Button(self.bot_frame, text='Remove', width=10)
-        self.remove_button.grid(row=12, padx=10, pady=5)
+        self.remove_button.grid(row=11, column=2, padx=10, pady=5)
         self.remove_button.bind("<Button-1>", self._remove_cb)
 
         self.cancel_button = tk.Button(self.bot_frame, text='Close', width=10)
-        self.cancel_button.grid(row=13, padx=10, pady=5)
+        self.cancel_button.grid(row=12, column=1, columnspan=2, sticky=tk.N, padx=10, pady=5)
         self.cancel_button.bind("<Button-1>", self._close_cb)
 
     def set_titles(self, titles):
