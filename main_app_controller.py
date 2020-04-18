@@ -21,6 +21,7 @@ class MainAppController(tk.Frame):
     Anmol Anand(A01174846),
     Nicholas Janus(A01179897)
     """
+
     def __init__(self, parent):
         """ Create the views """
         tk.Frame.__init__(self, parent)
@@ -164,7 +165,8 @@ class MainAppController(tk.Frame):
         if not os.path.exists(new_file_path):
             os.rename(file_path, new_file_path)
         else:
-	        messagebox.showinfo(title='Add Song', message=f"file with the name {data['title']}.mp3 already exists.")
+            messagebox.showinfo(title='Add Song', message=f"{data['title']} already exists. Adding from "
+                                                          f"local machine.")
 
         data['file_location'] = new_file_path
 
@@ -197,7 +199,8 @@ class MainAppController(tk.Frame):
     def add_via_url_popup(self):
         """ Show add via url popup window """
         self._add_via_url_win = tk.Toplevel()
-        self._add_via_url = AddViaUrlWindow(self._add_via_url_win, self.add_via_url_callback, self._close_add_via_url_popup)
+        self._add_via_url = AddViaUrlWindow(self._add_via_url_win, self.add_via_url_callback,
+                                            self._close_add_via_url_popup)
 
     def _close_add_manually_popup(self, event):
         """ Close Add Popup """
@@ -225,9 +228,9 @@ class MainAppController(tk.Frame):
         form_data = self._update.get_form_data()
 
         data = {
-                'genre': form_data[0].get('genre'),
-                'rating': form_data[0].get('rating')
-                }
+            'genre': form_data[0].get('genre'),
+            'rating': form_data[0].get('rating')
+        }
 
         response = requests.put(f"http://localhost:5000/song/{form_data[1]}", json=data)
         if response.status_code == 200:
