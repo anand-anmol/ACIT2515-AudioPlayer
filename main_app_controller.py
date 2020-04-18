@@ -240,6 +240,7 @@ class MainAppController(tk.Frame):
         self._queue = QueueWindow(self._queue_win, self.play_queue_callback, self.play_previous_callback,
                                   self.clear_queue_callback, self.remove_from_queue_callback, self._close_queue_popup)
         self.queue_list_box_callback()
+        self._queue.position_value['text'] = self.queue_pos + 1
 
     def _close_queue_popup(self, event):
         """ Close update Popup """
