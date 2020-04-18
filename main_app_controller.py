@@ -11,6 +11,7 @@ import vlc
 import eyed3
 from add_via_url_window import AddViaUrlWindow
 
+
 class MainAppController(tk.Frame):
     """ Main Application Window """
 
@@ -48,7 +49,7 @@ class MainAppController(tk.Frame):
 
         elif self._player.get_state() == vlc.State.Paused:
             self._player.pause()
-            self._player_window.state_value['text'] = "Playing"            
+            self._player_window.state_value['text'] = "Playing"
 
     def stop_callback(self):
         """ Stops playing audio. """
@@ -62,10 +63,14 @@ class MainAppController(tk.Frame):
         title_list = [f'{s["title"]}' for s in response.json()]
         self._player_window.set_titles(title_list)
 
-    def open_file_callback(self):
-        """ Opens file from local machine. """
+    def add_from_file_callback(self):
+        """ Loads file from local machine. """
         selected_file = askopenfilename(initialdir='.', defaultextension='.mp3')
-        audio = eyed3.load(selected_file)
+        if not selected_file:
+            return
+        adjusted_path = selected_file.replace("/", os.sep)
+
+        audio = eyed3.load(adjusted_path)
 
         title = audio.tag.title
         artist = audio.tag.artist
@@ -81,7 +86,7 @@ class MainAppController(tk.Frame):
                 'artist': artist,
                 'album': album,
                 'runtime': runtime,
-                'file_location': selected_file,
+                'file_location': adjusted_path,
                 'genre': genre}
 
         response = requests.post("http://localhost:5000/song", json=data)
@@ -138,9 +143,9 @@ class MainAppController(tk.Frame):
         self._add = AddManuallyWindow(self._add_win, self.add_manually_callback, self._close_popup)
 
     def add_via_url_popup(self):
-    	""" Show add via url popup window """
-    	self._add_via_url_win = tk.Toplevel()
-    	self._add_via_url = AddViaUrlWindow()
+        """ Show add via url popup window """
+        self._add_via_url_win = tk.Toplevel()
+        self._add_via_url = AddViaUrlWindow()
 
     def _close_popup(self, event):
         """ Close Add Popup """

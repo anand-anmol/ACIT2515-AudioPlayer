@@ -22,8 +22,7 @@ class PlayerWindow(tk.Frame):
         parent.config(menu=main_menu)
         file_menu = tk.Menu(main_menu)
         main_menu.add_cascade(label='File', menu=file_menu)
-        file_menu.add_command(label='Open File', command=controller.open_file_callback)
-        file_menu.add_command(label='Open Folder', command="")
+        file_menu.add_command(label='Load from file', command=controller.add_from_file_callback)
         file_menu.add_command(label='Quit', command=controller.quit_callback)
 
         # Defining frames
