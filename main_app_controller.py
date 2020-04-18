@@ -256,7 +256,8 @@ class MainAppController(tk.Frame):
 
     def clear_queue_callback(self, event):
         """ Resets the queue position. """
-        self.queue_pos = 0
+        self.queue_pos = -1
+        self._queue.position_value['text'] = self.queue_pos + 1
 
     def remove_from_queue_callback(self, event):
         """ Removes song from queue. """
