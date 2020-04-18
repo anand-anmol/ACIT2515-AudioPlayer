@@ -16,7 +16,7 @@ class AudioFile(Base):
 
     __tablename__ = "song_tbl"
     id = Column(Integer, primary_key=True)
-    title = Column(Text, nullable =False)
+    title = Column(Text, nullable=False)
     artist = Column(Text, nullable=False)
     file_location = Column(Text, nullable=False)
     date_added = Column(Text, nullable=False)

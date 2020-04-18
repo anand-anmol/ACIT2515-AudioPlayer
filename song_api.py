@@ -37,6 +37,7 @@ def add_song():
         )
     return response
 
+
 @app.route('/play_song/<string:song_number_in_listbox>', methods=['POST'])
 def play_song(song_number_in_listbox):
     """ Updates the play count and last played values in the database """
@@ -48,11 +49,10 @@ def play_song(song_number_in_listbox):
     except IndexError:
         print(f"Song {song_number_in_listbox} does not exist")
 
-
     response = app.response_class(
-            status=200,
-            mimetype='application/json'
-        )
+        status=200,
+        mimetype='application/json'
+    )
 
     return response
 
@@ -78,6 +78,7 @@ def get_song(song_id):
         )
         return response
 
+
 @app.route('/song/name/<string:song_title>', methods=['GET'])
 def get_song_by_name(song_title):
     """ Get a song from the database """
@@ -98,6 +99,7 @@ def get_song_by_name(song_title):
             status=404
         )
         return response
+
 
 @app.route('/song/random', methods=['GET'])
 def random_song():

@@ -90,6 +90,7 @@ class MainAppController(tk.Frame):
     @classmethod
     def __load_file(cls, selected_file):
         """ loads the mp3 file data using ide tags """
+
         audio = eyed3.load(selected_file)
 
         title = audio.tag.title
@@ -106,13 +107,10 @@ class MainAppController(tk.Frame):
                 'artist': artist,
                 'album': album,
                 'runtime': runtime,
-                'file_location': adjusted_path,
+                'file_location': selected_file,
                 'genre': genre}
 
         return data
-
-    def clear_callback(self):
-        pass
 
     def add_manually_callback(self, event):
         """ Add audio file. """
@@ -143,7 +141,7 @@ class MainAppController(tk.Frame):
         if not os.path.exists('mp3'):
             os.makedirs('mp3')
 
-        file_path = os.path.join('mp3', 'remote_audio.mp3')
+        file_path = os.path.join('mp3', 'remote_audio.mp3').replace("/", os.sep)
 
         with open(file_path, "wb") as f:
             f.write(r.content)
@@ -165,8 +163,6 @@ class MainAppController(tk.Frame):
         else:
             messagebox.showerror(title='Error', message='Something went wrong, song not added.')
 
-
-
     def delete_callback(self):
         """ Deletes selected song. """
         song_index_dict = self._player_window.get_form_data()
@@ -187,10 +183,8 @@ class MainAppController(tk.Frame):
     def add_via_url_popup(self):
         """ Show add via url popup window """
         self._add_via_url_win = tk.Toplevel()
-        self._add_via_url = AddViaUrlWindow()
-    	""" Show add via url popup window """
-    	self._add_via_url_win = tk.Toplevel()
-    	self._add_via_url = AddViaUrlWindow(self._add_via_url_win, self.add_via_url_callback, self._close_add_via_url_popup)
+        self._add_via_url = AddViaUrlWindow(self._add_via_url_win, self.add_via_url_callback,
+                                            self._close_add_via_url_popup)
 
     def _close_add_manually_popup(self, event):
         """ Close Add Popup """
