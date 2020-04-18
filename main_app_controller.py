@@ -22,7 +22,7 @@ class MainAppController(tk.Frame):
     Nicholas Janus(A01179897)
     """
 
-    def __init__(self, parent):
+    def __init__(self, parent: tk.Tk):
         """ Create the views """
         tk.Frame.__init__(self, parent)
         self._root_win = tk.Toplevel()
@@ -94,7 +94,7 @@ class MainAppController(tk.Frame):
         self.master.quit()
 
     @classmethod
-    def __load_file(cls, selected_file):
+    def __load_file(cls, selected_file: str) -> dict:
         """ loads the mp3 file data using eyed3 tags. """
         audio = eyed3.load(selected_file)
 
@@ -117,7 +117,7 @@ class MainAppController(tk.Frame):
         return data
 
     @staticmethod
-    def get_tag(file, tag):
+    def get_tag(file, tag: str):
         """ Static method to get eyed3 tags for mp3 files. """
         try:
             return str(getattr(file.tag, tag))

@@ -91,12 +91,12 @@ class PlayerWindow(tk.Frame):
         tk.Button(bot_right_frame, text='Add to Queue', width=10, command=controller.add_to_queue_callback) \
             .grid(row=4, column=2, sticky=tk.N, padx=10, pady=5)
 
-    def set_titles(self, titles):
+    def set_titles(self, titles: list):
         """ Update the listbox to display all names """
         self.list_box.delete(0, tk.END)
         for title in titles:
             self.list_box.insert(tk.END, title)
 
-    def get_form_data(self):
+    def get_form_data(self)  -> dict:
         """ returns selected song from the listbox """
         return {"title": self.list_box.get('anchor'), "index": self.list_box.index('anchor')}

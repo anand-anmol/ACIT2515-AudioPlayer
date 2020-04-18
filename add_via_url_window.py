@@ -35,6 +35,6 @@ class AddViaUrlWindow(tk.Frame):
         self.cancel_button.grid(row=11, padx=10, pady=5)
         self.cancel_button.bind("<Button-1>", self._close_cb)
 
-    def get_form_data(self):
+    def get_form_data(self) -> dict:
         """ Returns dictionary with all entry fields """
         return {'URL': self._URL_entry.get()}
