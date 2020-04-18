@@ -94,13 +94,13 @@ class MainAppController(tk.Frame):
 
     @classmethod
     def __load_file(cls, selected_file):
-        """ loads the mp3 file data using ide tags """
+        """ loads the mp3 file data using eyed3 tags. """
         audio = eyed3.load(selected_file)
 
-        title = audio.tag.title
-        artist = audio.tag.artist
-        album = audio.tag.album
-        genre = audio.tag.genre._name
+        title = cls.get_tag(audio, "title")
+        artist = cls.get_tag(audio, "artist")
+        album = cls.get_tag(audio, "album")
+        genre = cls.get_tag(audio, "genre._name")
 
         runtime_secs = audio.info.time_secs
         runtime_mins = int(runtime_secs // 60)
@@ -114,6 +114,14 @@ class MainAppController(tk.Frame):
                 'file_location': selected_file,
                 'genre': genre}
         return data
+
+    @staticmethod
+    def get_tag(file, tag):
+        """ Static method to get eyed3 tags for mp3 files. """
+        try:
+            return str(getattr(file.tag, tag))
+        except AttributeError:
+            return "None"
 
     def add_manually_callback(self, event):
         """ Add audio file manually. """
@@ -271,6 +279,8 @@ class MainAppController(tk.Frame):
         try:
             if (len(self._queue_list) - 1) != self.queue_pos:
                 self.queue_pos = self.queue_pos + 1
+                self._queue.position_value['text'] = self.queue_pos + 1
+
                 media_file = self._queue_list[self.queue_pos]['file_location']
 
                 media = self._vlc_instance.media_new_path(media_file)
@@ -291,6 +301,7 @@ class MainAppController(tk.Frame):
         if self.queue_pos > 0:
             try:
                 self.queue_pos = self.queue_pos - 1
+                self._queue.position_value['text'] = self.queue_pos + 1
 
                 media_file = self._queue_list[self.queue_pos]['file_location']
 

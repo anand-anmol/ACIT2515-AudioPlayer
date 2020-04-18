@@ -35,6 +35,11 @@ class QueueWindow(tk.Frame):
 
         self.list_box.config(yscrollcommand=scrollbar.set)
 
+        # Position label
+        tk.Label(self.top_frame, text='Queue Position:').grid(row=1, column=0, sticky=tk.N, padx=0, pady=5)
+        self.position_value = tk.Label(self.top_frame, text='0')
+        self.position_value.grid(row=1, column=1, sticky=tk.W, padx=0, pady=5)
+
         # Buttons
         self.next_button = tk.Button(self.bot_frame, text='Play Next', width=10)
         self.next_button.grid(row=10, column=1, padx=10, pady=5)
