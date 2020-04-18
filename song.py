@@ -13,8 +13,9 @@ class Song(AudioFile):
     """ ORM: map db columns to instance variables in this class """
     album = Column(Text)
     genre = Column(Text)
+    rating = Column(Text)
 
-    def __init__(self, title: str, artist: str, album: str, runtime: str, file_location: str,  genre: str = None):
+    def __init__(self, title: str, artist: str, album: str, runtime: str, file_location: str,  genre: str = None, rating: int = None):
         """Creates an instance of a song"""
 
         if not isinstance(album, str):
@@ -26,7 +27,10 @@ class Song(AudioFile):
 
         super().__init__(title, artist, runtime, file_location)
         self.album = album
-
+        if rating is not None and isinstance(rating, int):
+            self.rating = rating
+        else:
+            self.rating = None
     def get_album(self) -> str:
         """returns the song.album or sets the song.album"""
         return self.album
@@ -88,3 +92,15 @@ class Song(AudioFile):
 
         self.play_count += 1
         self.last_played = datetime.now()
+
+    def update(self, object):
+        """ updates the instance variables of the song object with the object supplied """
+
+        if isinstance(object, Song):
+            self.genre = object.genre
+            self.rating = object.rating
+
+    def set_rating(self, update):
+        """ setter for the rating of the song """
+        self.rating = update
+        print(self.rating)
