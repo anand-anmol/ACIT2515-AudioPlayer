@@ -36,7 +36,7 @@ class MainAppController(tk.Frame):
         self._player_window.state_value['text'] = "Playing"
         self._player_window.title_value['text'] = response.json()['title']
 
-        play_response = requests.post("http://localhost:5000/play_song/{}".format(song_name_dict['title']))
+        play_response = requests.post("http://localhost:5000/play_song/{}".format(song_name_dict['index']))
 
     def pause_resume_callback(self):
         """ Pauses playing audio. """
@@ -93,9 +93,8 @@ class MainAppController(tk.Frame):
     def delete_callback(self):
         """ Deletes selected song. """
         song_index_dict = self._player_window.get_form_data()
-        song_id = int(song_index_dict['index']) + 1
 
-        response = requests.delete(f"http://localhost:5000/song/{song_id}")
+        response = requests.delete(f"http://localhost:5000/song/{song_index_dict['index']}")
 
         if response.status_code == 200:
             messagebox.showinfo(title='Delete Song', message='Song deleted.')
