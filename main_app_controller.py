@@ -187,10 +187,7 @@ class MainAppController(tk.Frame):
     def add_via_url_popup(self):
         """ Show add via url popup window """
         self._add_via_url_win = tk.Toplevel()
-        self._add_via_url = AddViaUrlWindow()
-    	""" Show add via url popup window """
-    	self._add_via_url_win = tk.Toplevel()
-    	self._add_via_url = AddViaUrlWindow(self._add_via_url_win, self.add_via_url_callback, self._close_add_via_url_popup)
+        self._add_via_url = AddViaUrlWindow(self._add_via_url_win, self.add_via_url_callback, self._close_add_via_url_popup)
 
     def _close_add_manually_popup(self, event):
         """ Close Add Popup """
