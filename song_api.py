@@ -14,7 +14,7 @@ def add_song():
     """ Add a song to the database """
     content = request.json
 
-    if not 'genre' in content.keys():
+    if 'genre' not in content.keys():
         content['genre'] = None
 
     try:
@@ -101,36 +101,9 @@ def get_song_by_name(song_title):
         return response
 
 
-@app.route('/song/random', methods=['GET'])
-def random_song():
-    """ Return a random song from the database """
-    try:
-        names = song_mgr.get_all_songs()
-
-        if len(names) > 0:
-            id = random.randint(0, len(names) - 1)
-            random_song = names[id]
-        else:
-            raise ValueError("No songs in DB")
-
-        response = app.response_class(
-            status=200,
-            response=json.dumps(random_song.meta_data()),
-            mimetype='application/json'
-        )
-        return response
-    except ValueError as e:
-        response = app.response_class(
-            response=str(e),
-            status=404
-        )
-        return response
-
-
 @app.route('/song/<string:song_number_in_listbox>', methods=['DELETE'])
 def delete_song(song_number_in_listbox):
     """ Delete a song from the DB   """
-
     songs = song_mgr.get_all_songs()
 
     try:
@@ -146,7 +119,6 @@ def delete_song(song_number_in_listbox):
             response=str(e),
             status=404
         )
-
     return response
 
 
@@ -176,7 +148,7 @@ def update_song(song_number_in_listbox):
     except IndexError:
         print(f"Song {song_number_in_listbox} does not exist")
 
-    if not 'genre' in content.keys():
+    if 'genre' not in content.keys():
         content['genre'] = None
 
     try:

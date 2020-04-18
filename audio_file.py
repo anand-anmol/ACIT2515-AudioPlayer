@@ -49,13 +49,14 @@ class AudioFile(Base):
     @property
     def rating(self) -> float:
         """gets value for user ratings"""
+        pass
 
     @rating.setter
     def rating(self, value: float):
         """sets the value of user ratings"""
 
     def update_usage_stats(self):
-        """plays the audo file"""
+        """plays the audio file"""
         self._usage.increment_usage_stats()
 
     @abstractmethod

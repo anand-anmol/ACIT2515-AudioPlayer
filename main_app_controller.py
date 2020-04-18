@@ -1,4 +1,4 @@
-import csv
+from time import sleep
 import tkinter as tk
 from math import floor
 from tkinter import messagebox
@@ -10,12 +10,17 @@ from add_manually_window import AddManuallyWindow
 import vlc
 import eyed3
 from add_via_url_window import AddViaUrlWindow
-from update_song import UpdateWindow
+from update_window import UpdateWindow
+from queue_window import QueueWindow
 
 
 class MainAppController(tk.Frame):
-    """ Main Application Window """
+    """ Main Application Window
 
+    Authors:
+    Anmol Anand(A01174846),
+    Nicholas Janus(A01179897)
+    """
     def __init__(self, parent):
         """ Create the views """
         tk.Frame.__init__(self, parent)
@@ -24,11 +29,11 @@ class MainAppController(tk.Frame):
         self.listbox_callback()
         self._vlc_instance = vlc.Instance()
         self._player = self._vlc_instance.media_player_new()
-        self._queue = []
+        self.queue_pos = 0
+        self._queue_list = []
 
     def play_callback(self):
         """ Play audio file. """
-
         song_name_dict = self._player_window.get_form_data()
 
         response = requests.get("http://localhost:5000/song/name/{}".format(song_name_dict['title']))
@@ -67,14 +72,12 @@ class MainAppController(tk.Frame):
 
     def add_from_file_callback(self):
         """ Loads file from local machine. """
-        selected_file = askopenfilename(initialdir='.', defaultextension='.mp3')
+        selected_file = askopenfilename(initialdir='.', filetypes=(("MP3 File", "*.mp3"),))  # Weird tkinter syntax
         if not selected_file:
             return
         adjusted_path = selected_file.replace("/", os.sep)
 
-        audio = eyed3.load(adjusted_path)
-
-        data = MainAppController.__load_file(selected_file)
+        data = MainAppController.__load_file(adjusted_path)
 
         response = requests.post("http://localhost:5000/song", json=data)
 
@@ -92,7 +95,6 @@ class MainAppController(tk.Frame):
     @classmethod
     def __load_file(cls, selected_file):
         """ loads the mp3 file data using ide tags """
-
         audio = eyed3.load(selected_file)
 
         title = audio.tag.title
@@ -111,11 +113,10 @@ class MainAppController(tk.Frame):
                 'runtime': runtime,
                 'file_location': selected_file,
                 'genre': genre}
-
         return data
 
     def add_manually_callback(self, event):
-        """ Add audio file. """
+        """ Add audio file manually. """
         form_data = self._add.get_form_data()
 
         data = {'title': form_data.get('title'),
@@ -197,8 +198,12 @@ class MainAppController(tk.Frame):
 
     def update_popup(self):
         """ Show update popup window """
+        song_data = self._player_window.get_form_data()
+        song_index = song_data.get("index")
+
         self._update_win = tk.Toplevel()
-        self._update = UpdateWindow(self._update_win, self.update_song_callback, self._close_update_popup)
+        self._update = UpdateWindow(self._update_win, self.update_song_callback, self._close_update_popup,
+                                    song_index)
 
     def _close_update_popup(self, event):
         """ Close update Popup """
@@ -206,21 +211,78 @@ class MainAppController(tk.Frame):
 
     def update_song_callback(self, event):
         """ Update audio file. """
-        form_data = self._add.get_form_data()
+        form_data = self._update.get_form_data()
 
         data = {
-                'genre': form_data.get('genre'),
-                'rating': form_data.get('rating')
+                'genre': form_data[0].get('genre'),
+                'rating': form_data[0].get('rating')
                 }
 
-        response = requests.post("http://localhost:5000/song/update", json=data)
+        response = requests.put(f"http://localhost:5000/song/{form_data[1]}", json=data)
         if response.status_code == 200:
-            msg_str = f"{form_data.get('title')} has been updated."
-            messagebox.showinfo(title='Add Song', message=msg_str)
+            messagebox.showinfo(title='Edit Song', message='Song updated!')
             self._close_update_popup(event)
             self.listbox_callback()
         else:
-            messagebox.showerror(title='Error', message='Something went wrong, song not updated.')
+            messagebox.showerror(title='Error', message='Something went wrong, song has not updated.')
+
+    def queue_popup(self):
+        """ Show add popup window """
+        self._queue_win = tk.Toplevel()
+        self._queue = QueueWindow(self._queue_win, self.play_queue_callback, self.clear_queue_callback(),
+                                  self.remove_from_queue_callback, self._close_queue_popup)
+        self.queue_list_box_callback()
+
+    def _close_queue_popup(self, event):
+        """ Close update Popup """
+        self._queue_win.destroy()
+
+    def add_to_queue_callback(self):
+        """ Adds song to queue. """
+        song_name_dict = self._player_window.get_form_data()
+
+        response = requests.get("http://localhost:5000/song/name/{}".format(song_name_dict['title']))
+        if response.status_code == 200:
+            self._queue_list.append(response.json())
+            messagebox.showinfo(title='Add to Queue', message='Song added to queue!')
+
+    def clear_queue_callback(self):
+        """ Resets the queue position. """
+        self.queue_pos = 0
+
+    def remove_from_queue_callback(self, event):
+        """ Removes song from queue. """
+        song_to_remove = self._queue.get_form_data()
+        try:
+            del self._queue_list[song_to_remove['index']]
+            self.queue_list_box_callback()
+            self.queue_pos = 0
+            messagebox.showinfo(title='Queue', message='Song removed from queue.')
+        except IndexError:
+            messagebox.showerror(title='Error', message='No song selected.')
+
+    def queue_list_box_callback(self):
+        """ Sets queue's list box values. """
+        title_list = [f'{s["title"]}' for s in self._queue_list]
+        self._queue.set_titles(title_list)
+
+    def play_queue_callback(self, event):
+        """ Plays next song in queue (first if none already played). """
+        try:
+            media_file = self._queue_list[self.queue_pos]['file_location']
+
+            media = self._vlc_instance.media_new_path(media_file)
+
+            self._player.set_media(media)
+            self._player.play()
+            self._player_window.state_value['text'] = "Playing"
+            self._player_window.title_value['text'] = self._queue_list[self.queue_pos]['title']
+
+            play_response = requests.post(f"http://localhost:5000/play_song/{self._queue_list[self.queue_pos]}")
+
+            self.queue_pos += 1
+        except IndexError:
+            messagebox.showerror(title='Error', message='No songs left in queue!')
 
 
 if __name__ == "__main__":

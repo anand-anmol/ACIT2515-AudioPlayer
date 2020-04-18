@@ -74,15 +74,22 @@ class PlayerWindow(tk.Frame):
 
         # Buttons under listbox
         tk.Button(bot_right_frame, text='Add Manually', width=10, command=controller.add_manually_popup) \
-            .grid(row=2, column=1, sticky=tk.E, padx=20, pady=5)
+            .grid(row=2, column=1, sticky=tk.E, padx=10, pady=5)
 
         tk.Button(bot_right_frame, text='Add via URL', width=10, command=controller.add_via_url_popup) \
-            .grid(row=2, column=2, sticky=tk.E, padx=20, pady=5)
+            .grid(row=2, column=2, sticky=tk.E, padx=10, pady=5)
 
         tk.Button(bot_right_frame, text='Delete', width=10, command=controller.delete_callback) \
-            .grid(row=3, columnspan=2, column=1, sticky=tk.N, padx=20, pady=5)
+            .grid(row=3, column=1, sticky=tk.N, padx=10, pady=5)
 
-        # Initial controller calls
+        tk.Button(bot_right_frame, text='Edit Song', width=10, command=controller.update_popup) \
+            .grid(row=3, column=2, sticky=tk.N, padx=10, pady=5)
+
+        tk.Button(bot_right_frame, text='View Queue', width=10, command=controller.queue_popup) \
+            .grid(row=4, column=1, sticky=tk.N, padx=10, pady=5)
+
+        tk.Button(bot_right_frame, text='Add to Queue', width=10, command=controller.add_to_queue_callback) \
+            .grid(row=4, column=2, sticky=tk.N, padx=10, pady=5)
 
     def set_titles(self, titles):
         """ Update the listbox to display all names """
@@ -92,4 +99,4 @@ class PlayerWindow(tk.Frame):
 
     def get_form_data(self):
         """ returns selected song from the listbox """
-        return {"title": self.list_box.get('anchor'),"index": self.list_box.index('anchor')}
+        return {"title": self.list_box.get('anchor'), "index": self.list_box.index('anchor')}
