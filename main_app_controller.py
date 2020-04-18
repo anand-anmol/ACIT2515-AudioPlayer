@@ -167,7 +167,7 @@ class MainAppController(tk.Frame):
         else:
             messagebox.showinfo(title='Add Song', message=f"{data['title']} already exists. Adding from "
                                                           f"local machine.")
-
+            os.remove(file_path)
         data['file_location'] = new_file_path
 
         response = requests.post("http://localhost:5000/song", json=data)
