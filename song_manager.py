@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, update
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from datetime import datetime
@@ -38,20 +38,18 @@ class SongManager:
 
         return song_id
 
-    def update_song(self, song):
-        """ Update existing song to match song_upd """
-        if song is None or not isinstance(song, Song):
+    def update_song(self, object):
+        """ Update existing song to match song_update """
+        if object is None or not isinstance(object, Song):
             raise ValueError("Invalid Song Object")
 
         session = self._db_session()
 
-        existing_song = session.query(Song).filter(Song.title == song.title).first()
+        existing_song = session.query(Song).filter(Song.title == object.title).first()
         if existing_song is None:
-            raise ValueError(f"Song {song.title} does not exist")
+            raise ValueError(f"Song {object.title} does not exist")
 
-        existing_song.update(song)
-
-        session.query(Song).filter(Song.title == song.title).update()
+        existing_song.update(object)
 
 
         session.commit()

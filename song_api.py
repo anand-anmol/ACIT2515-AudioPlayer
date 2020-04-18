@@ -17,6 +17,7 @@ def add_song():
     if 'genre' not in content.keys():
         content['genre'] = None
 
+
     try:
         song = Song(content['title'],
                     content['artist'],
@@ -152,8 +153,9 @@ def update_song(song_number_in_listbox):
         content['genre'] = None
 
     try:
+        song.set_rating(int(content['rating']))
         song.genre = content['genre']
-        song.rating = content['rating']
+        print(content['rating'])
         song_mgr.update_song(song)
         response = app.response_class(
             status=200
