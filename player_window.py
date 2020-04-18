@@ -43,7 +43,7 @@ class PlayerWindow(tk.Frame):
 
         # Labels
         tk.Label(top_frame, text='Song:').grid(row=0, column=0, sticky=tk.E, padx=5, pady=5)
-        self.title_value = tk.Label(top_frame, text='')
+        self.title_value = tk.Label(top_frame, text='None')
         self.title_value.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
 
         tk.Label(mid_frame, text='State:').grid(row=0, column=0, sticky=tk.E, padx=5, pady=5)
