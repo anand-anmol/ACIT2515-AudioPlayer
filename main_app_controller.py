@@ -1,5 +1,6 @@
 import csv
 import tkinter as tk
+from math import floor
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename
 import os
@@ -7,6 +8,7 @@ import requests
 from player_window import PlayerWindow
 from add_window import AddWindow
 import vlc
+import eyed3
 
 
 class MainAppController(tk.Frame):
@@ -60,8 +62,35 @@ class MainAppController(tk.Frame):
         title_list = [f'{s["title"]}' for s in response.json()]
         self._player_window.set_titles(title_list)
 
-    def openfile(self):
-        pass
+    def open_file_callback(self):
+        """ Opens file from local machine. """
+        selected_file = askopenfilename(initialdir='.', defaultextension='.mp3')
+        audio = eyed3.load(selected_file)
+
+        tags = {'title': '', 'artist': '', 'album': '', 'genre': ''}
+
+        for field in tags.keys():
+            value = getattr(audio.tag, field)
+            if field == 'genre':
+                tags[field] = value._name
+            else:
+                tags[field] = value
+
+        runtime_secs = audio.info.time_secs
+        runtime_mins = int(runtime_secs // 60)
+
+        tags['runtime'] = str(runtime_mins) + ':' + str(floor(runtime_secs) - (runtime_mins * 60))
+
+        print(tags)
+
+        response = requests.post("http://localhost:5000/song", json=tags)
+
+        if response.status_code == 200:
+            msg_str = f"Song added to the database."
+            messagebox.showinfo(title='Add Song', message=msg_str)
+            self.listbox_callback()
+        else:
+            messagebox.showerror(title='Error', message='Something went wrong, song not added.')
 
     def quit_callback(self):
         """ Exit the application. """
