@@ -9,7 +9,7 @@ from player_window import PlayerWindow
 from add_manually_window import AddManuallyWindow
 import vlc
 import eyed3
-
+from add_via_url_window import AddViaUrlWindow
 
 class MainAppController(tk.Frame):
     """ Main Application Window """
@@ -136,6 +136,11 @@ class MainAppController(tk.Frame):
         """ Show add popup window """
         self._add_win = tk.Toplevel()
         self._add = AddManuallyWindow(self._add_win, self.add_manually_callback, self._close_popup)
+
+    def add_via_url_popup(self):
+    	""" Show add via url popup window """
+    	self._add_via_url_win = tk.Toplevel()
+    	self._add_via_url = AddViaUrlWindow()
 
     def _close_popup(self, event):
         """ Close Add Popup """
