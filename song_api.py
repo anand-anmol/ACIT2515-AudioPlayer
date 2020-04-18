@@ -37,14 +37,17 @@ def add_song():
         )
     return response
 
-@app.route('/play_song/<string:song_title>', methods=['POST'])
-def play_song(song_title):
+@app.route('/play_song/<string:song_number_in_listbox>', methods=['POST'])
+def play_song(song_number_in_listbox):
     """ Updates the play count and last played values in the database """
+
+    songs = song_mgr.get_all_songs()
+
     try:
-        song = song_mgr.get_song_by_name(song_title)
-        song_mgr.play_song(song)
-    except ValueError:
-        print(f"Song {song.title} does not exist")
+        song_mgr.play_song(songs[int(song_number_in_listbox)])
+    except IndexError:
+        print(f"Song {song_number_in_listbox} does not exist")
+
 
     response = app.response_class(
             status=200,
@@ -122,20 +125,26 @@ def random_song():
         return response
 
 
-@app.route('/song/<string:song_id>', methods=['DELETE'])
-def delete_song(song_id):
+@app.route('/song/<string:song_number_in_listbox>', methods=['DELETE'])
+def delete_song(song_number_in_listbox):
     """ Delete a song from the DB   """
-    try:
-        song_mgr.delete_song(song_id)
 
+    songs = song_mgr.get_all_songs()
+
+    try:
+        song_mgr.delete_song(songs[int(song_number_in_listbox)])
         response = app.response_class(
             status=200
         )
+    except IndexError:
+        print(f"Song {song_number_in_listbox} does not exist")
+
     except ValueError as e:
         response = app.response_class(
             response=str(e),
             status=404
         )
+
     return response
 
 
