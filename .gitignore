@@ -5,3 +5,5 @@ song_db.sqlite
 *.xml
 .gitignore*
 *.mp3
+test_songs/
+test_song.py

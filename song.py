@@ -88,3 +88,10 @@ class Song(AudioFile):
 
         self.play_count += 1
         self.last_played = datetime.now()
+
+    def update(self, song):
+        """ updates the instance variables of the song object with the object supplied """
+
+        if isinstance(song, Song):
+            self.genre = song.genre
+            self.rating = song.rating

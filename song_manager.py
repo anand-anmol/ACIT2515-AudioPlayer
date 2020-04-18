@@ -51,6 +51,9 @@ class SongManager:
 
         existing_song.update(song)
 
+        session.query(Song).filter(Song.title == song.title).update()
+
+
         session.commit()
         session.close()
 
